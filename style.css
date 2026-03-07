@@ -2,25 +2,28 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-:root {
+    :root {
     --primary-blue: #0066FF; 
     --bg-app: #FFFFFF;
-    --text-main: #101828;   /* Hitam tajam untuk kontras tinggi */
-    --text-muted: #667085;  /* Abu-abu gelap agar tetap terbaca */
+    --card-bg: #FFFFFF;
+    --text-main: #101828;
+    --text-muted: #667085;
     --border-light: #F2F4F7;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
     background-color: #E5E7EB;
     display: flex;
     justify-content: center;
+    min-height: 100vh;
 }
 
 .app-container {
@@ -28,141 +31,209 @@ body {
     max-width: 414px;
     background: var(--bg-app);
     min-height: 100vh;
+    position: relative;
     padding: 24px 20px 120px 20px;
 }
 
-/* 1. PERBAIKAN HEADER: Nama harus kontras */
-.user-info h1 { 
-    font-size: 20px; 
-    color: var(--text-main); 
-    font-weight: 800; 
-    margin-top: 2px;
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-/* 2. PERBAIKAN CATEGORY: Bulatan Biru Aktif */
+.avatar {
+    width: 48px;
+    height: 48px;
+    background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop');
+    background-size: cover;
+    border-radius: 50%;
+    border: 1px solid var(--border-light);
+}
+
+.user-info h1 { font-size: 18px; color: var(--text-main); font-weight: 700; }
+.user-info span { color: var(--text-muted); font-size: 13px; }
+
+/* Search Section */
+.search-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    flex: 1;
+    background: #F9FAFB;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 50px;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+}
+
+.filter-btn {
+    background: var(--text-main);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Category Aktif Biru */
 .categories {
     display: flex;
     justify-content: space-between;
-    margin: 30px 0;
+    margin-bottom: 32px;
+}
+
+.category-item {
+    text-align: center;
+    cursor: pointer;
 }
 
 .icon-box {
-    background: #FFFFFF;
+    background: white;
     width: 60px;
     height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--border-light);
     color: var(--text-main);
+    border: 1px solid var(--border-light);
+    margin-bottom: 8px;
     transition: 0.3s;
 }
 
-/* Saat Aktif - Bulatan Biru */
 .category-item.active .icon-box {
     background: var(--primary-blue);
     border-color: var(--primary-blue);
-    color: #FFFFFF;
+    color: white;
     box-shadow: 0 8px 16px rgba(0, 102, 255, 0.2);
 }
 
-.category-item span { 
-    display: block;
-    margin-top: 8px;
-    font-size: 12px; 
-    font-weight: 600; 
-    color: var(--text-muted); 
-}
-
+.category-item span { font-size: 11px; font-weight: 600; color: var(--text-muted); }
 .category-item.active span { color: var(--primary-blue); }
 
-/* 3. PERBAIKAN BANNER: Teks putih di atas background gelap */
+/* Banner CTA */
 .cta-banner {
-    background: #101828; /* Hitam pekat agar teks putih terlihat jelas */
+    background: var(--text-main);
     border-radius: 24px;
     padding: 24px;
-    color: #FFFFFF;
-    margin-bottom: 35px;
+    color: white;
+    margin-bottom: 32px;
     position: relative;
     overflow: hidden;
-    min-height: 140px;
 }
 
-.cta-banner h3 { 
-    font-size: 18px; 
-    font-weight: 700; 
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 2;
-}
-
-.cta-banner p { 
-    font-size: 13px; 
-    opacity: 0.8; 
-    margin-bottom: 15px;
-    max-width: 180px;
-    position: relative;
-    z-index: 2;
-}
+.cta-banner h3 { font-size: 17px; margin-bottom: 4px; }
+.cta-banner p { font-size: 12px; opacity: 0.7; margin-bottom: 16px; }
 
 .cta-banner button {
-    background: #FFFFFF;
-    color: #101828;
+    background: var(--primary-blue);
     border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    color: white;
     font-weight: 700;
-    position: relative;
-    z-index: 2;
+    font-size: 12px;
 }
 
-/* Ikon di banner agar tidak pecah/hilang */
-.banner-img {
-    position: absolute;
-    right: -10px;
-    bottom: -10px;
-    width: 120px;
-    z-index: 1;
-    opacity: 0.9;
-}
-
-/* 4. PERBAIKAN CARD: Radius harus melengkung (Rounded) */
+/* Card Image - PERBAIKAN SEGI KOTAK */
 .project-card {
-    background: #FFFFFF;
-    border-radius: 24px;
+    background: white;
+    border-radius: 24px; /* Frame luar melengkung */
     overflow: hidden;
+    margin-bottom: 24px;
     border: 1px solid var(--border-light);
-    margin-top: 15px;
+    box-shadow: var(--shadow-sm);
 }
 
 .card-image {
-    height: 200px;
+    height: 220px;
     background-size: cover;
     background-position: center;
     position: relative;
+    /* Memastikan gambar juga mengikuti lengkungan frame */
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
 }
 
-.card-details { padding: 20px; }
-.card-details h4 { color: var(--text-main); font-weight: 700; font-size: 16px; }
-.card-details p { color: var(--text-muted); font-size: 13px; }
+.tag {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-main);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 15px;
+    display: inline-block;
+}
 
-/* 5. NAVIGASI BAWAH: Floating style */
+.play-btn {
+    position: absolute; 
+    right: 15px; 
+    bottom: 15px; 
+    background: white; 
+    border: none; 
+    border-radius: 50%; 
+    width: 42px; 
+    height: 42px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    color: var(--primary-blue);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card-details { padding: 18px; }
+.card-details h4 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+.card-details p { font-size: 13px; color: var(--text-muted); }
+
+/* Bottom Nav */
 .bottom-nav {
     position: fixed;
-    bottom: 20px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 380px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-around;
-    padding: 15px 0;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 12px 0;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
 }
+
+.nav-item {
+    text-decoration: none;
+    color: #98A2B3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    gap: 4px;
+}
+
+.nav-item.active { color: var(--primary-blue); }
+
 </style>
 
 <script>
