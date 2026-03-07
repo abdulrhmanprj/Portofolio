@@ -47,7 +47,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; /* Jarak dari judul ke kartu proyek pertama */
+    margin-bottom: 20px;
 }
 
 .section-header h2 {
@@ -107,102 +107,103 @@ body {
     justify-content: center;
 }
 
-/* Category Aktif Biru */
+/* --- UPDATE: Kategori Scrollable --- */
 .categories {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 32px;
+    gap: 15px;
+    overflow-x: auto; /* Memungkinkan geser ke samping */
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    scrollbar-width: none; /* Sembunyikan scrollbar Firefox */
+}
+
+.categories::-webkit-scrollbar {
+    display: none; /* Sembunyikan scrollbar Chrome/Safari */
 }
 
 .category-item {
+    flex: 0 0 auto; /* Mencegah item menciut */
     text-align: center;
     cursor: pointer;
 }
 
-/* State Normal (Putih) */
 .icon-box {
-    background: #FFFFFF; /* Dasar putih bersih */
+    background: #FFFFFF;
     width: 60px;
     height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #101828; /* Warna ikon hitam */
-    border: 1px solid #F2F4F7; /* Border tipis agar terlihat di background putih */
+    color: #101828;
+    border: 1px solid #F2F4F7;
     margin-bottom: 8px;
     transition: all 0.3s ease;
 }
 
-/* State Aktif (Bulatan jadi Biru) */
 .category-item.active .icon-box {
-    background: #0066FF; /* Biru pekat */
-    border-color: #0066FF;
-    color: #FFFFFF; /* Ikon jadi putih agar kontras */
-    box-shadow: 0 8px 16px rgba(0, 102, 255, 0.25); /* Efek cahaya biru */
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #FFFFFF;
+    box-shadow: 0 8px 16px rgba(0, 102, 255, 0.25);
 }
 
-/* Teks di bawah ikon yang aktif */
+.category-item span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: 0.3s;
+}
+
 .category-item.active span {
-    color: #0066FF;
+    color: var(--primary-blue);
     font-weight: 700;
 }
 
-/* Banner CTA - Kontras Tinggi */
+/* Banner CTA */
 .cta-card {
-  /* 1. Pengaturan Background Gabungan */
-  /* Ganti URL di bawah dengan link foto pria Anda yang sebenarnya */
   background-image: url('https://share.google/qlGMQ7i3eqDNwOTZ2'); 
-  background-position: right bottom; /* Gambar nempel di kanan bawah */
+  background-position: right bottom;
   background-repeat: no-repeat;
-  background-size: contain; /* Gambar penuh secara vertikal, proporsional */
-  
-  /* 2. Warna Background Utama (Gelap) */
-  background-color: #0d1117; /* Warna gelap card */
-
-  /* 3. Pengaturan Layout Card */
+  background-size: contain;
+  background-color: #0d1117; 
   border-radius: 24px;
   padding: 30px;
   display: flex;
-  align-items: center; /* Konten teks rata tengah vertikal */
-  min-height: 200px; /* Atur tinggi minimal agar gambar terlihat bagus */
+  align-items: center;
+  min-height: 200px;
   position: relative;
-  overflow: hidden; /* Memastikan sudut gambar tajam mengikuti round card */
+  overflow: hidden;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  margin-bottom: 30px;
 }
 
 .cta-content {
-  /* Memastikan teks berada di atas background gambar dan tidak tertutup */
   position: relative;
   z-index: 1; 
-  max-width: 60%; /* Teks hanya memakan maksimal 60% lebar card di kiri */
+  max-width: 60%;
   color: white;
 }
 
-.cta-content h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.cta-content p {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 20px;
-}
+.cta-content h3 { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+.cta-content p { font-size: 14px; opacity: 0.8; margin-bottom: 20px; }
 
 .cta-button {
-  background-color: #007bff; /* Warna biru tombol */
+  background-color: var(--primary-blue);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+.cta-button:hover { transform: scale(1.05); }
+
+/* --- UPDATE: Project List & Animasi --- */
 .projects {
-    margin-top: 40px; /* Jarak yang cukup dari banner di atasnya */
+    margin-top: 10px;
 }
 
 .project-card {
@@ -210,15 +211,21 @@ body {
     border-radius: 24px;
     overflow: hidden;
     border: 1px solid var(--border-light);
-    margin-bottom: 24px; /* Jarak antar kartu */
+    margin-bottom: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
+
+/* Animasi Fade-In saat kategori diklik */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .card-image {
     height: 220px;
     background-size: cover;
     background-position: center;
     position: relative;
-    /* Memastikan gambar juga mengikuti lengkungan frame */
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
 }
@@ -270,6 +277,7 @@ body {
     border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     border: 1px solid rgba(0,0,0,0.05);
+    z-index: 100;
 }
 
 .nav-item {
@@ -283,7 +291,6 @@ body {
 }
 
 .nav-item.active { color: var(--primary-blue); }
-
 </style>
 
 <script>
