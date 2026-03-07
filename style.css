@@ -1,0 +1,171 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root {
+    --primary-blue: #0066FF; 
+    --bg-app: #FFFFFF;
+    --text-main: #101828;   /* Hitam tajam untuk kontras tinggi */
+    --text-muted: #667085;  /* Abu-abu gelap agar tetap terbaca */
+    --border-light: #F2F4F7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: #E5E7EB;
+    display: flex;
+    justify-content: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 414px;
+    background: var(--bg-app);
+    min-height: 100vh;
+    padding: 24px 20px 120px 20px;
+}
+
+/* 1. PERBAIKAN HEADER: Nama harus kontras */
+.user-info h1 { 
+    font-size: 20px; 
+    color: var(--text-main); 
+    font-weight: 800; 
+    margin-top: 2px;
+}
+
+/* 2. PERBAIKAN CATEGORY: Bulatan Biru Aktif */
+.categories {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.icon-box {
+    background: #FFFFFF;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    transition: 0.3s;
+}
+
+/* Saat Aktif - Bulatan Biru */
+.category-item.active .icon-box {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #FFFFFF;
+    box-shadow: 0 8px 16px rgba(0, 102, 255, 0.2);
+}
+
+.category-item span { 
+    display: block;
+    margin-top: 8px;
+    font-size: 12px; 
+    font-weight: 600; 
+    color: var(--text-muted); 
+}
+
+.category-item.active span { color: var(--primary-blue); }
+
+/* 3. PERBAIKAN BANNER: Teks putih di atas background gelap */
+.cta-banner {
+    background: #101828; /* Hitam pekat agar teks putih terlihat jelas */
+    border-radius: 24px;
+    padding: 24px;
+    color: #FFFFFF;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+}
+
+.cta-banner h3 { 
+    font-size: 18px; 
+    font-weight: 700; 
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-banner p { 
+    font-size: 13px; 
+    opacity: 0.8; 
+    margin-bottom: 15px;
+    max-width: 180px;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-banner button {
+    background: #FFFFFF;
+    color: #101828;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+}
+
+/* Ikon di banner agar tidak pecah/hilang */
+.banner-img {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 120px;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+/* 4. PERBAIKAN CARD: Radius harus melengkung (Rounded) */
+.project-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    margin-top: 15px;
+}
+
+.card-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-details { padding: 20px; }
+.card-details h4 { color: var(--text-main); font-weight: 700; font-size: 16px; }
+.card-details p { color: var(--text-muted); font-size: 13px; }
+
+/* 5. NAVIGASI BAWAH: Floating style */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+</style>
+
+<script>
+  // Aktifkan ikon Lucide
+  lucide.createIcons();
+</script>
