@@ -149,61 +149,56 @@ body {
 }
 
 /* Banner CTA - Kontras Tinggi */
-.cta-banner {
-    background: #101828; /* Warna Hitam Pekat agar teks putih 'pop out' */
-    border-radius: 24px;
-    padding: 24px;
-    color: #FFFFFF; /* Teks murni putih */
-    margin-bottom: 35px;
-    position: relative;
-    overflow: hidden;
-    min-height: 160px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.cta-card {
+  /* 1. Pengaturan Background Gabungan */
+  /* Ganti URL di bawah dengan link foto pria Anda yang sebenarnya */
+  background-image: url('https://share.google/qlGMQ7i3eqDNwOTZ2'); 
+  background-position: right bottom; /* Gambar nempel di kanan bawah */
+  background-repeat: no-repeat;
+  background-size: contain; /* Gambar penuh secara vertikal, proporsional */
+  
+  /* 2. Warna Background Utama (Gelap) */
+  background-color: #0d1117; /* Warna gelap card */
+
+  /* 3. Pengaturan Layout Card */
+  border-radius: 24px;
+  padding: 30px;
+  display: flex;
+  align-items: center; /* Konten teks rata tengah vertikal */
+  min-height: 200px; /* Atur tinggi minimal agar gambar terlihat bagus */
+  position: relative;
+  overflow: hidden; /* Memastikan sudut gambar tajam mengikuti round card */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-.cta-banner h3 { 
-    font-size: 18px; 
-    font-weight: 700; 
-    margin-bottom: 8px;
-    color: #FFFFFF;
-    position: relative;
-    z-index: 2;
+.cta-content {
+  /* Memastikan teks berada di atas background gambar dan tidak tertutup */
+  position: relative;
+  z-index: 1; 
+  max-width: 60%; /* Teks hanya memakan maksimal 60% lebar card di kiri */
+  color: white;
 }
 
-.cta-banner p { 
-    font-size: 13px; 
-    opacity: 0.9; /* Sedikit transparan tapi tetap tajam */
-    margin-bottom: 18px;
-    max-width: 200px; /* Agar teks tidak menabrak gambar di kanan */
-    line-height: 1.5;
-    color: #FFFFFF;
-    position: relative;
-    z-index: 2;
+.cta-content h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.cta-banner button {
-    background: #0066FF; /* Tombol Biru agar mencolok */
-    color: #FFFFFF;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 700;
-    width: fit-content;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
+.cta-content p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
 }
 
-/* Memperbaiki Gambar/Ikon yang Hilang */
-.banner-img {
-    position: absolute;
-    right: -5px;
-    bottom: -5px;
-    width: 130px; /* Ukuran proporsional */
-    z-index: 1;
-    opacity: 0.8;
+.cta-button {
+  background-color: #007bff; /* Warna biru tombol */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .projects {
