@@ -40,15 +40,19 @@
             </div>
             <div class="category-item" data-filter="visual-prod">
                 <div class="icon-box"><i data-lucide="video"></i></div>
-                <span>Video & Photo</span>
+                <span>Cinema</span>
             </div>
             <div class="category-item" data-filter="branding">
                 <div class="icon-box"><i data-lucide="palette"></i></div>
                 <span>Branding</span>
             </div>
-            <div class="category-item" data-filter="marketing">
+            <div class="category-item" data-filter="web-dev">
+                <div class="icon-box"><i data-lucide="layout"></i></div>
+                <span>Web Dev</span>
+            </div>
+            <div class="category-item" data-filter="ads">
                 <div class="icon-box"><i data-lucide="megaphone"></i></div>
-                <span>Ads & Web</span>
+                <span>Digital Ads</span>
             </div>
         </section>
 
@@ -100,14 +104,25 @@
                     </div>
                 </div>
 
-                <div class="project-card" data-category="marketing" style="display: none;">
+                <div class="project-card" data-category="web-dev" style="display: none;">
                     <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800');">
-                        <span class="tag">Digital Ads • 2026</span>
-                        <button class="play-btn"><i data-lucide="megaphone"></i></button>
+                        <span class="tag">Web Dev • 2026</span>
+                        <button class="play-btn"><i data-lucide="code"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Premium Landing Page</h4>
+                        <p>Optimized UI/UX for business conversions.</p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="ads" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bbbda536639a?w=800');">
+                        <span class="tag">Marketing • 2026</span>
+                        <button class="play-btn"><i data-lucide="trending-up"></i></button>
                     </div>
                     <div class="card-details">
                         <h4>Meta & Google Ads</h4>
-                        <p>Conversion-focused landing page & ad management.</p>
+                        <p>Scale your business with high-ROAS campaigns.</p>
                     </div>
                 </div>
             </div>
@@ -115,8 +130,7 @@
 
         <nav class="bottom-nav">
             <a href="#" class="nav-item active"><i data-lucide="home"></i><span>Home</span></a>
-            <a href="#" class="nav-item"><i data-lucide="briefcase"></i><span>Works</span></a>
-            <a href="#" class="nav-item"><i data-lucide="message-square"></i><span>Chat</span></a>
+            <a href="#" class="nav-item"><i data-lucide="briefcase"></i><span>Experience</span></a>
             <a href="#" class="nav-item"><i data-lucide="user"></i><span>Profile</span></a>
         </nav>
     </div>
@@ -124,14 +138,11 @@
     <script>
         lucide.createIcons();
 
-        // Script untuk mengubah tampilan saat kategori diklik
         document.querySelectorAll('.category-item').forEach(item => {
             item.addEventListener('click', function() {
-                // Update class active pada tombol
                 document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
 
-                // Filter Card Proyek
                 const filterValue = this.getAttribute('data-filter');
                 const projectCards = document.querySelectorAll('.project-card');
 
