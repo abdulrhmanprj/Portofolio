@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio App - A. Rahman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <div class="user-profile">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <span>Hello 👋</span>
+                    <h1>A. Rahman</h1>
+                </div>
+            </div>
+            <div class="notification">
+                <i data-lucide="bell"></i>
+                <span class="badge">2</span>
+            </div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-bar">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Cari kategori desain...">
+            </div>
+            <button class="filter-btn"><i data-lucide="sliders-horizontal"></i></button>
+        </div>
+
+        <section class="categories">
+            <div class="category-item active">
+                <div class="icon-box"><i data-lucide="video"></i></div>
+                <span>AI Video</span>
+            </div>
+            <div class="category-item">
+                <div class="icon-box"><i data-lucide="clapperboard"></i></div>
+                <span>Cinematic</span>
+            </div>
+            <div class="category-item">
+                <div class="icon-box"><i data-lucide="layout"></i></div>
+                <span>UI/UX</span>
+            </div>
+            <div class="category-item">
+                <div class="icon-box"><i data-lucide="palette"></i></div>
+                <span>Branding</span>
+            </div>
+        </section>
+
+        <section class="cta-banner">
+            <div class="cta-text">
+                <h3>Ingin visual cinematic?</h3>
+                <p>Mulai kolaborasi proyek Anda hari ini.</p>
+                <button>Hubungi Saya</button>
+            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/7439/7439311.png" class="banner-icon-bg" alt="AI Icon">
+        </section>
+
+        <section class="projects">
+            <div class="section-header">
+                <h2>Karya Terbaru</h2>
+                <a href="#">Lihat Semua</a>
+            </div>
+            
+            <div class="project-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800&auto=format&fit=crop');">
+                    <span class="tag">AI Video • 2026</span>
+                    <button class="play-btn"><i data-lucide="play"></i></button>
+                </div>
+                <div class="card-details">
+                    <h4>Cyberpunk Cityscape Animation</h4>
+                    <p>Ultra-realistic environment with dynamic lighting.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop');">
+                    <span class="tag">CGI Portrait • 2026</span>
+                    <button class="play-btn"><i data-lucide="image"></i></button>
+                </div>
+                <div class="card-details">
+                    <h4>Mysterious Professional Headshot</h4>
+                    <p>Dramatic shadows and cinematic studio lighting.</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active"><i data-lucide="home"></i><span>Home</span></a>
+            <a href="#" class="nav-item"><i data-lucide="briefcase"></i><span>Works</span></a>
+            <a href="#" class="nav-item"><i data-lucide="message-square"></i><span>Chat</span></a>
+            <a href="#" class="nav-item"><i data-lucide="user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+</body>
+</html>
