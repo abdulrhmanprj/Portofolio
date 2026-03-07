@@ -11,7 +11,7 @@
 <body>
 
     <div class="app-container">
-        <header class="header">
+        <header class="header home-content">
             <div class="user-profile">
                 <div class="avatar"></div>
                 <div class="user-info">
@@ -25,7 +25,7 @@
             </div>
         </header>
 
-        <div class="search-section">
+        <div class="search-section home-content">
             <div class="search-bar">
                 <i data-lucide="search"></i>
                 <input type="text" placeholder="Cari layanan...">
@@ -33,7 +33,7 @@
             <button class="filter-btn"><i data-lucide="sliders-horizontal"></i></button>
         </div>
 
-        <section class="categories">
+        <section class="categories home-content">
             <div class="category-item active" data-filter="ai-creative">
                 <div class="icon-box"><i data-lucide="sparkles"></i></div>
                 <span>AI Creative</span>
@@ -56,15 +56,15 @@
             </div>
         </section>
 
-        <section class="cta-card">
+        <section class="cta-card home-content">
             <div class="cta-content">
                 <h3>Ingin visual cinematic?</h3>
                 <p>Mulai kolaborasi proyek Anda hari ini.</p>
-                <button class="cta-button">Hubungi Saya</button>
+                <button class="cta-button btn-trigger-contact">Hubungi Saya</button>
             </div>
         </section>
 
-        <section class="projects">
+        <section class="projects home-content">
             <div class="section-header">
                 <h2>Karya Terbaru</h2>
                 <a href="#" style="text-decoration: none; font-weight: 600; color: #0066FF; font-size: 14px;">Lihat Semua</a>
@@ -72,7 +72,7 @@
             
             <div id="project-list">
                 <div class="project-card" data-category="ai-creative">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800&auto=format&fit=crop');">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800');">
                         <span class="tag">AI Video • 2026</span>
                         <button class="play-btn"><i data-lucide="play"></i></button>
                     </div>
@@ -128,34 +128,136 @@
             </div>
         </section>
 
+        <section id="experience-section" style="display: none;">
+            <div class="section-header">
+                <h2>Professional Journey</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>AI Video Creator</h4>
+                        <span>Freelance • 2024 - Present</span>
+                        <p>Creating high-end cinematic visuals and AI-driven animations.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Digital Strategist</h4>
+                        <span>Dungeonpay.id • 2023</span>
+                        <p>Managing digital assets and conversion optimization.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="profile-section" style="display: none;">
+            <div class="profile-header-ui">
+                <div class="profile-avatar-large"></div>
+                <h2>A. Rahman</h2>
+                <p>AI Video Creator & Web Enthusiast</p>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-box"><strong>15+</strong><span>Projects</span></div>
+                <div class="stat-box"><strong>5+</strong><span>Clients</span></div>
+                <div class="stat-box"><strong>4.9</strong><span>Rating</span></div>
+            </div>
+            <div class="profile-menu">
+                <div class="p-menu-item btn-trigger-contact"><i data-lucide="mail"></i> <span>Hubungi Saya</span></div>
+                <div class="p-menu-item"><i data-lucide="share-2"></i> <span>Bagikan Portofolio</span></div>
+                <div class="p-menu-item" style="color: #F04438;"><i data-lucide="log-out"></i> <span>Keluar</span></div>
+            </div>
+        </section>
+
         <nav class="bottom-nav">
-            <a href="#" class="nav-item active"><i data-lucide="home"></i><span>Home</span></a>
-            <a href="#" class="nav-item"><i data-lucide="briefcase"></i><span>Experience</span></a>
-            <a href="#" class="nav-item"><i data-lucide="user"></i><span>Profile</span></a>
+            <a href="#" class="nav-item active" data-page="home"><i data-lucide="home"></i><span>Home</span></a>
+            <a href="#" class="nav-item" data-page="experience"><i data-lucide="briefcase"></i><span>Experience</span></a>
+            <a href="#" class="nav-item" data-page="profile"><i data-lucide="user"></i><span>Profile</span></a>
         </nav>
+    </div>
+
+    <div id="contact-overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h3>Kirim Pesan</h3>
+                <button id="close-overlay"><i data-lucide="x"></i></button>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>Nama Anda</label>
+                    <input type="text" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label>Pesan Proyek</label>
+                    <textarea placeholder="Ceritakan singkat proyek Anda..." rows="4" required></textarea>
+                </div>
+                <button type="submit" class="send-btn">
+                    <span>Kirim via WhatsApp</span>
+                    <i data-lucide="send"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
     <script>
         lucide.createIcons();
 
+        // --- 1. Filter Kategori (Home) ---
         document.querySelectorAll('.category-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-
                 const filterValue = this.getAttribute('data-filter');
-                const projectCards = document.querySelectorAll('.project-card');
-
-                projectCards.forEach(card => {
-                    if (card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeIn 0.4s ease-in-out forwards';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.style.display = card.getAttribute('data-category') === filterValue ? 'block' : 'none';
+                    if(card.style.display === 'block') card.style.animation = 'fadeIn 0.4s ease-out';
                 });
             });
         });
+
+        // --- 2. Navigasi SPA (Home, Experience, Profile) ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const homeSections = document.querySelectorAll('.home-content');
+        const expSection = document.getElementById('experience-section');
+        const profSection = document.getElementById('profile-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+                
+                const page = this.getAttribute('data-page');
+
+                // Sembunyikan semua dulu
+                homeSections.forEach(s => s.style.display = 'none');
+                expSection.style.display = 'none';
+                profSection.style.display = 'none';
+
+                // Tampilkan yang dipilih
+                if(page === 'home') {
+                    homeSections.forEach(s => s.style.display = (s.tagName === 'HEADER' || s.classList.contains('search-section')) ? 'flex' : 'block');
+                } else if(page === 'experience') {
+                    expSection.style.display = 'block';
+                } else if(page === 'profile') {
+                    profSection.style.display = 'block';
+                }
+                window.scrollTo(0,0);
+            });
+        });
+
+        // --- 3. Contact Overlay Logic ---
+        const overlay = document.getElementById('contact-overlay');
+        const closeBtn = document.getElementById('close-overlay');
+        const triggerBtns = document.querySelectorAll('.btn-trigger-contact');
+
+        triggerBtns.forEach(btn => {
+            btn.addEventListener('click', () => overlay.style.display = 'flex');
+        });
+
+        closeBtn.addEventListener('click', () => overlay.style.display = 'none');
+        window.addEventListener('click', (e) => { if(e.target === overlay) overlay.style.display = 'none'; });
     </script>
 </body>
-</html>
+    </html>
