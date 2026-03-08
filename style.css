@@ -489,6 +489,35 @@ body {
     padding-bottom: 40px;
 }
 
+/* --- UI HORIZONTAL PROJECTS --- */
+#project-list {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 4px 20px 4px; /* Padding bawah agar bayangan kartu tidak terpotong */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory; /* Efek magnet saat digeser */
+}
+
+#project-list::-webkit-scrollbar {
+    display: none;
+}
+
+.project-card {
+    flex: 0 0 280px; /* Lebar kartu dibuat pas agar gambar berikutnya terlihat sedikit */
+    margin-bottom: 0; /* Hapus margin bottom karena sekarang menyamping */
+    scroll-snap-align: start;
+    transition: transform 0.3s ease;
+}
+
+/* Sedikit penyesuaian gambar agar pas di mode horizontal */
+.card-image {
+    height: 180px; 
+}
+
+
 #back-to-home i {
     width: 20px;
     height: 20px;
