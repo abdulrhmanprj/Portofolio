@@ -254,7 +254,6 @@
         </div>
 </section>
 
-
         <nav class="bottom-nav">
             <a href="#" class="nav-item active" data-page="home"><i data-lucide="home"></i><span>Home</span></a>
             <a href="#" class="nav-item" data-page="experience"><i data-lucide="briefcase"></i><span>Experience</span></a>
@@ -262,6 +261,28 @@
         </nav>
     </div>
 
+    <div id="project-modal" class="overlay">
+    <div class="overlay-content modal-full">
+        <div class="modal-header">
+            <button id="close-modal"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body">
+            <div id="modal-image" class="modal-hero"></div>
+            <div class="modal-details">
+                <span id="modal-tag" class="tag"></span>
+                <h2 id="modal-title"></h2>
+                <p id="modal-desc"></p>
+                
+                <div class="modal-actions">
+                    <button class="send-btn btn-trigger-contact">
+                        <i data-lucide="message-square"></i>
+                        Tanya Proyek Ini
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 <script>
     // 1. Inisialisasi
@@ -403,6 +424,38 @@ document.querySelectorAll('.category-item').forEach(item => {
         window.open(`https://wa.me/628123456789?text=${encodeURIComponent(msg)}`, '_blank');
         overlay.style.display = 'none';
     });
+
+    const modal = document.getElementById('project-modal');
+const closeModal = document.getElementById('close-modal');
+
+// Fungsi membuka modal dengan data dinamis
+function openProjectModal(card) {
+    const title = card.querySelector('h4').innerText;
+    const desc = card.querySelector('p').innerText;
+    const img = card.querySelector('.card-image').style.backgroundImage;
+    const tag = card.querySelector('.tag').innerText;
+
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-desc').innerText = desc;
+    document.getElementById('modal-image').style.backgroundImage = img;
+    document.getElementById('modal-tag').innerText = tag;
+
+    modal.style.display = 'flex';
+    modal.style.animation = 'fadeIn 0.3s ease-out';
+}
+
+// Tambahkan event click ke semua kartu (termasuk yang baru di-filter)
+document.addEventListener('click', function(e) {
+    const card = e.target.closest('.project-card');
+    if (card) {
+        openProjectModal(card);
+    }
+});
+
+// Tutup Modal
+closeModal.addEventListener('click', () => modal.style.display = 'none');
+window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
 </script>
 
 </body>
