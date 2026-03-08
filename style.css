@@ -2,6 +2,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
+/* --- 1. Global Reset & Variables --- */
 :root {
     --primary-blue: #0066FF; 
     --bg-app: #FFFFFF;
@@ -33,14 +34,21 @@ body {
     min-height: 100vh;
     position: relative;
     padding: 24px 20px 120px 20px;
+    overflow-x: hidden; /* Mencegah container utama goyang */
 }
 
-/* --- Header & Global Typography --- */
+/* --- 2. Header & Profile --- */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .avatar {
@@ -55,7 +63,7 @@ body {
 .user-info h1 { font-size: 18px; color: var(--text-main); font-weight: 700; }
 .user-info span { color: var(--text-muted); font-size: 13px; }
 
-/* --- Search & Filter --- */
+/* --- 3. Search & Filter --- */
 .search-section {
     display: flex;
     gap: 12px;
@@ -79,6 +87,7 @@ body {
     background: transparent;
     width: 100%;
     font-size: 14px;
+    margin-left: 8px;
 }
 
 .filter-btn {
@@ -94,28 +103,36 @@ body {
     cursor: pointer;
 }
 
-/* --- Categories (Scrollable) --- */
+/* --- 4. PERBAIKAN: Kategori (Horizontal Scroll) --- */
 .categories {
-    display: flex;
+    display: flex !important; /* Paksa Flexbox */
+    flex-direction: row !important; /* Paksa baris samping */
     gap: 15px;
-    overflow-x: auto;
+    overflow-x: auto; /* Aktifkan scroll kanan */
     padding-bottom: 15px;
     margin-bottom: 25px;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Sembunyikan scrollbar Firefox */
+    -webkit-overflow-scrolling: touch;
 }
 
-.categories::-webkit-scrollbar { display: none; }
+.categories::-webkit-scrollbar {
+    display: none; /* Sembunyikan scrollbar Chrome/Safari */
+}
 
 .category-item {
-    flex: 0 0 auto;
+    flex: 0 0 auto; /* KUNCI: Mencegah item menciut/gepeng */
+    width: 70px; /* Ukuran tetap agar rapi */
     text-align: center;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .icon-box {
     background: #FFFFFF;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -133,10 +150,19 @@ body {
     box-shadow: 0 8px 16px rgba(0, 102, 255, 0.25);
 }
 
-.category-item span { font-size: 11px; font-weight: 600; color: var(--text-muted); }
-.category-item.active span { color: var(--primary-blue); font-weight: 700; }
+.category-item span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap; /* Mencegah teks turun baris */
+}
 
-/* --- Banner CTA --- */
+.category-item.active span {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+/* --- 5. Banner CTA --- */
 .cta-card {
     background-color: #0d1117; 
     border-radius: 24px;
@@ -144,13 +170,22 @@ body {
     display: flex;
     align-items: center;
     min-height: 180px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     margin-bottom: 30px;
     color: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1; 
+    max-width: 65%;
 }
 
 .cta-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
 .cta-content p { font-size: 14px; opacity: 0.8; margin-bottom: 20px; }
+
 .cta-button {
     background-color: var(--primary-blue);
     color: white;
@@ -161,7 +196,16 @@ body {
     cursor: pointer;
 }
 
-/* --- Project Cards --- */
+/* --- 6. Projects Section --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 { font-size: 18px; font-weight: 800; color: var(--text-main); }
+
 .project-card {
     background: #FFFFFF;
     border-radius: 24px;
@@ -172,7 +216,7 @@ body {
 }
 
 .card-image {
-    height: 200px;
+    height: 220px;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -180,6 +224,7 @@ body {
 
 .tag {
     background: rgba(255, 255, 255, 0.9);
+    color: var(--text-main);
     padding: 6px 12px;
     border-radius: 10px;
     font-size: 10px;
@@ -189,18 +234,52 @@ body {
 }
 
 .play-btn {
-    position: absolute; right: 15px; bottom: 15px;
-    background: white; border: none; border-radius: 50%;
-    width: 42px; height: 42px; display: flex;
-    align-items: center; justify-content: center;
+    position: absolute; 
+    right: 15px; bottom: 15px; 
+    background: white; border: none; 
+    border-radius: 50%; 
+    width: 42px; height: 42px; 
+    display: flex; align-items: center; justify-content: center;
     color: var(--primary-blue);
 }
 
 .card-details { padding: 18px; }
-.card-details h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.card-details h4 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
 .card-details p { font-size: 13px; color: var(--text-muted); }
 
-/* --- Experience (Timeline) --- */
+/* --- 7. Bottom Nav (Floating) --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 340px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 14px 0;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #98A2B3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 11px;
+    gap: 4px;
+    transition: 0.3s;
+}
+
+.nav-item.active { color: var(--primary-blue); }
+
+/* --- 8. UI Elements (Timeline & Profile) --- */
 .timeline { padding-left: 20px; border-left: 2px solid var(--border-light); margin-left: 10px; }
 .timeline-item { position: relative; padding-bottom: 30px; }
 .timeline-dot {
@@ -208,71 +287,52 @@ body {
     width: 12px; height: 12px; background: var(--primary-blue);
     border-radius: 50%; border: 3px solid white;
 }
-.timeline-content h4 { font-size: 16px; color: var(--text-main); }
-.timeline-content span { font-size: 12px; color: var(--primary-blue); font-weight: 600; }
-.timeline-content p { font-size: 13px; color: var(--text-muted); margin-top: 5px; }
 
-/* --- Profile UI --- */
-.profile-header-ui { text-align: center; margin-bottom: 30px; }
 .profile-avatar-large {
     width: 100px; height: 100px;
     background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop');
     background-size: cover; border-radius: 50%;
     margin: 0 auto 15px; border: 4px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
-.profile-stats {
-    display: flex; justify-content: space-around;
-    background: #F9FAFB; padding: 20px; border-radius: 20px; margin-bottom: 30px;
-}
-.stat-box { text-align: center; }
-.stat-box strong { display: block; font-size: 18px; color: var(--text-main); }
-.stat-box span { font-size: 12px; color: var(--text-muted); }
-.profile-menu { display: flex; flex-direction: column; gap: 10px; }
-.p-menu-item {
-    display: flex; align-items: center; gap: 15px; padding: 16px;
-    background: #F9FAFB; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer;
-}
 
-/* --- Contact Overlay (Bottom Sheet) --- */
+/* --- 9. Overlay & Form --- */
 .overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); z-index: 1000;
-    display: none; align-items: flex-end;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+    align-items: flex-end;
 }
+
 .overlay-content {
-    background: white; width: 100%; max-width: 414px; margin: 0 auto;
-    border-top-left-radius: 30px; border-top-right-radius: 30px;
-    padding: 30px 24px 40px; animation: slideUp 0.4s ease-out;
+    background: white;
+    width: 100%;
+    max-width: 414px;
+    margin: 0 auto;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    padding: 30px 24px 40px;
+    animation: slideUp 0.4s ease-out;
 }
-.overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-#close-overlay { background: #F2F4F7; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
-.form-group { margin-bottom: 18px; }
-.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-.form-group input, .form-group textarea {
-    width: 100%; padding: 14px 16px; border: 1px solid var(--border-light);
-    border-radius: 12px; background: #F9FAFB; font-size: 14px; outline: none;
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
 }
+
 .send-btn {
-    width: 100%; background: var(--primary-blue); color: white; border: none;
-    padding: 16px; border-radius: 16px; font-weight: 700;
-    display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer;
+    width: 100%;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
 }
 
-/* --- Bottom Nav --- */
-.bottom-nav {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    width: 80%; max-width: 320px; background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px); display: flex; justify-content: space-around;
-    padding: 14px 0; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    border: 1px solid rgba(0,0,0,0.05); z-index: 100;
-}
-.nav-item {
-    text-decoration: none; color: #98A2B3; display: flex;
-    flex-direction: column; align-items: center; font-size: 11px; gap: 5px;
-}
-.nav-item.active { color: var(--primary-blue); }
-
-/* --- Animations --- */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 </style>
