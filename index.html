@@ -341,34 +341,35 @@
     });
 
     // --- 3. Logika Modal Hybrid (Dinamis: Video/Gambar) ---
-    function openProjectModal(card) {
-        const title = card.querySelector('h4').innerText;
-        const desc = card.querySelector('p').innerText;
-        const tag = card.querySelector('.tag').innerText;
-        const type = card.getAttribute('data-type');
+function openProjectModal(card) {
+    const title = card.querySelector('h4').innerText;
+    const desc = card.querySelector('p').innerText;
+    const tag = card.querySelector('.tag').innerText;
+    const type = card.getAttribute('data-type');
 
-        // Reset konten modal hero
-        modalHero.innerHTML = '';
-        modalHero.style.backgroundImage = 'none';
+    // Reset konten modal hero
+    modalHero.innerHTML = '';
+    modalHero.style.backgroundImage = 'none';
 
-        if (type === 'video') {
-            const videoUrl = card.getAttribute('data-video');
-            modalHero.innerHTML = `
-                <video controls autoplay loop playsinline style="width:100%; height:100%; object-fit:cover;">
-                    <source src="${videoUrl}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>`;
-        } else {
-            const img = card.querySelector('.card-image').style.backgroundImage;
-            modalHero.style.backgroundImage = img;
-        }
-
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-desc').innerText = desc;
-        document.getElementById('modal-tag').innerText = tag;
-
-        modal.style.display = 'flex';
+    if (type === 'video') {
+        const videoUrl = card.getAttribute('data-video');
+        // Menambahkan 'muted' agar browser mengizinkan autoplay
+        modalHero.innerHTML = `
+            <video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover; background:#000;">
+                <source src="${videoUrl}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>`;
+    } else {
+        const img = card.querySelector('.card-image').style.backgroundImage;
+        modalHero.style.backgroundImage = img;
     }
+
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-desc').innerText = desc;
+    document.getElementById('modal-tag').innerText = tag;
+
+    modal.style.display = 'flex';
+}
 
     // Global Click Handler untuk kartu proyek
     document.addEventListener('click', (e) => {
