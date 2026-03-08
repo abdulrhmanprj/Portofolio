@@ -203,24 +203,61 @@
     <script>
         lucide.createIcons();
 
+        // --- 1. Filter Kategori (Home) ---
         document.querySelectorAll('.category-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-
                 const filterValue = this.getAttribute('data-filter');
-                const projectCards = document.querySelectorAll('.project-card');
-
-                projectCards.forEach(card => {
-                    if (card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeIn 0.4s ease-in-out forwards';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.style.display = card.getAttribute('data-category') === filterValue ? 'block' : 'none';
+                    if(card.style.display === 'block') card.style.animation = 'fadeIn 0.4s ease-out';
                 });
             });
         });
+
+        // --- 2. Navigasi SPA (Home, Experience, Profile) ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const homeSections = document.querySelectorAll('.home-content');
+        const expSection = document.getElementById('experience-section');
+        const profSection = document.getElementById('profile-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+                
+                const page = this.getAttribute('data-page');
+
+                // Sembunyikan semua dulu
+                homeSections.forEach(s => s.style.display = 'none');
+                expSection.style.display = 'none';
+                profSection.style.display = 'none';
+
+                // Tampilkan yang dipilih
+                if(page === 'home') {
+                    homeSections.forEach(s => s.style.display = (s.tagName === 'HEADER' || s.classList.contains('search-section')) ? 'flex' : 'block');
+                } else if(page === 'experience') {
+                    expSection.style.display = 'block';
+                } else if(page === 'profile') {
+                    profSection.style.display = 'block';
+                }
+                window.scrollTo(0,0);
+            });
+        });
+
+        // --- 3. Contact Overlay Logic ---
+        const overlay = document.getElementById('contact-overlay');
+        const closeBtn = document.getElementById('close-overlay');
+        const triggerBtns = document.querySelectorAll('.btn-trigger-contact');
+
+        triggerBtns.forEach(btn => {
+            btn.addEventListener('click', () => overlay.style.display = 'flex');
+        });
+
+        closeBtn.addEventListener('click', () => overlay.style.display = 'none');
+        window.addEventListener('click', (e) => { if(e.target === overlay) overlay.style.display = 'none'; });
     </script>
 </body>
 </html>
