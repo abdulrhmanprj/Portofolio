@@ -186,14 +186,7 @@
             </div>
         </section>
 
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-page="home"><i data-lucide="home"></i><span>Home</span></a>
-            <a href="#" class="nav-item" data-page="experience"><i data-lucide="briefcase"></i><span>Experience</span></a>
-            <a href="#" class="nav-item" data-page="profile"><i data-lucide="user"></i><span>Profile</span></a>
-        </nav>
-    </div>
-
-    <div id="contact-overlay" class="overlay">
+        <div id="contact-overlay" class="overlay">
         <div class="overlay-content">
             <div class="overlay-header">
                 <h3>Kirim Pesan</h3>
@@ -214,6 +207,49 @@
                 </button>
             </form>
         </div>
+        </div>
+
+
+        <section id="all-projects-section" style="display: none;">
+    <div class="section-header">
+        <button id="back-to-home" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 700;">
+            <i data-lucide="arrow-left"></i>
+            Semua Karya
+        </button>
+    </div>
+
+    <div class="all-projects-grid">
+        <div class="project-card" data-category="ai-creative">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800');">
+                <span class="tag">AI Video • 2026</span>
+                <button class="play-btn"><i data-lucide="play"></i></button>
+            </div>
+            <div class="card-details">
+                <h4>Cyberpunk Cityscape</h4>
+                <p>Ultra-realistic AI environment animation.</p>
+            </div>
+        </div>
+
+        <div class="project-card" data-category="visual-prod">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800');">
+                <span class="tag">Cinematic • 2026</span>
+                <button class="play-btn"><i data-lucide="video"></i></button>
+            </div>
+            <div class="card-details">
+                <h4>Social Media Content</h4>
+                <p>High-quality video production for TikTok & IG.</p>
+            </div>
+        </div>
+        
+        </div>
+</section>
+
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="home"><i data-lucide="home"></i><span>Home</span></a>
+            <a href="#" class="nav-item" data-page="experience"><i data-lucide="briefcase"></i><span>Experience</span></a>
+            <a href="#" class="nav-item" data-page="profile"><i data-lucide="user"></i><span>Profile</span></a>
+        </nav>
     </div>
 
     <script>
@@ -317,6 +353,43 @@
         window.open(`https://wa.me/628123456789?text=${encodeURIComponent(msg)}`, '_blank');
         overlay.style.display = 'none';
     });
+
+    // Definisikan section baru
+    const allProjectsSection = document.getElementById('all-projects-section');
+    const viewAllBtn = document.querySelector('.section-header a'); // Link "Lihat Semua"
+    const backBtn = document.getElementById('back-to-home');
+
+    // Fungsi untuk menyembunyikan semua halaman
+    function hideAllPages() {
+        document.querySelectorAll('.home-content, #experience-section, #profile-section, #all-projects-section').forEach(s => {
+            s.style.display = 'none';
+        });
+    }
+
+    // Klik "Lihat Semua"
+    viewAllBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        hideAllPages();
+        allProjectsSection.style.display = 'block';
+        allProjectsSection.style.animation = 'fadeIn 0.3s ease-out';
+        window.scrollTo(0, 0);
+    });
+
+    // Klik tombol Kembali ke Home
+    backBtn.addEventListener('click', () => {
+        // Trigger klik pada nav item "Home" agar kembali ke tampilan awal
+        document.querySelector('.nav-item[data-page="home"]').click();
+    });
+
+    // Update pada bagian Navigasi SPA yang sudah ada:
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // ... (kode navigasi Anda yang sebelumnya) ...
+            // Pastikan allProjectsSection juga ikut disembunyikan di dalam loop navigasi utama
+            allProjectsSection.style.display = 'none';
+        });
+    });
+        
 </script>
 
 </body>
