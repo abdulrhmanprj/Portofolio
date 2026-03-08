@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio App - A. Rahman</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -81,19 +81,53 @@
                         <p>Ultra-realistic AI environment animation.</p>
                     </div>
                 </div>
+
                 <div class="project-card" data-category="visual-prod" style="display: none;">
                     <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800');">
                         <span class="tag">Cinematic • 2026</span>
-                        <button class="play-btn"><i data-lucide="video"></i></button>
+                        <button class="play-btn"><i data-lucide="clapperboard"></i></button>
                     </div>
                     <div class="card-details">
                         <h4>Social Media Content</h4>
                         <p>High-quality video production for TikTok & IG.</p>
                     </div>
                 </div>
+
+                <div class="project-card" data-category="branding" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800');">
+                        <span class="tag">Branding • 2026</span>
+                        <button class="play-btn"><i data-lucide="palette"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Mockup & Branding</h4>
+                        <p>Professional building & apparel design.</p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web-dev" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800');">
+                        <span class="tag">Web Dev • 2026</span>
+                        <button class="play-btn"><i data-lucide="code"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Premium Landing Page</h4>
+                        <p>Optimized UI/UX for business conversions.</p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="ads" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bbbda536639a?w=800');">
+                        <span class="tag">Marketing • 2026</span>
+                        <button class="play-btn"><i data-lucide="trending-up"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Meta & Google Ads</h4>
+                        <p>Scale your business with high-ROAS campaigns.</p>
+                    </div>
+                </div>
             </div>
         </section>
-        
+
         <section id="experience-section" style="display: none;">
             <div class="section-header">
                 <h2>Professional Journey</h2>
@@ -112,7 +146,7 @@
                     <div class="timeline-content">
                         <h4>Digital Strategist</h4>
                         <span>Dungeonpay.id • 2023</span>
-                        <p>Managing digital assets and optimizing conversion funnels.</p>
+                        <p>Managing digital assets and conversion optimization.</p>
                     </div>
                 </div>
             </div>
@@ -169,7 +203,7 @@
     <script>
         lucide.createIcons();
 
-        // 1. Filter Kategori (Fungsi di Home)
+        // --- 1. Filter Kategori (Home) ---
         document.querySelectorAll('.category-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
@@ -177,13 +211,14 @@
                 const filterValue = this.getAttribute('data-filter');
                 document.querySelectorAll('.project-card').forEach(card => {
                     card.style.display = card.getAttribute('data-category') === filterValue ? 'block' : 'none';
+                    if(card.style.display === 'block') card.style.animation = 'fadeIn 0.4s ease-out';
                 });
             });
         });
 
-        // 2. Navigasi SPA (Home, Experience, Profile)
+        // --- 2. Navigasi SPA (Home, Experience, Profile) ---
         const navItems = document.querySelectorAll('.nav-item');
-        const homeElements = document.querySelectorAll('.home-content');
+        const homeSections = document.querySelectorAll('.home-content');
         const expSection = document.getElementById('experience-section');
         const profSection = document.getElementById('profile-section');
 
@@ -195,21 +230,14 @@
                 
                 const page = this.getAttribute('data-page');
 
-                // Sembunyikan semua section dulu
-                homeElements.forEach(el => el.style.display = 'none');
+                // Sembunyikan semua dulu
+                homeSections.forEach(s => s.style.display = 'none');
                 expSection.style.display = 'none';
                 profSection.style.display = 'none';
 
-                // Tampilkan section yang dipilih
+                // Tampilkan yang dipilih
                 if(page === 'home') {
-                    homeElements.forEach(el => {
-                        // Header & Search section menggunakan flex agar layout tidak rusak
-                        if(el.classList.contains('header') || el.classList.contains('search-section')) {
-                            el.style.display = 'flex';
-                        } else {
-                            el.style.display = 'block';
-                        }
-                    });
+                    homeSections.forEach(s => s.style.display = (s.tagName === 'HEADER' || s.classList.contains('search-section')) ? 'flex' : 'block');
                 } else if(page === 'experience') {
                     expSection.style.display = 'block';
                 } else if(page === 'profile') {
@@ -219,27 +247,17 @@
             });
         });
 
-        // 3. Logic Contact Overlay
+        // --- 3. Contact Overlay Logic ---
         const overlay = document.getElementById('contact-overlay');
         const closeBtn = document.getElementById('close-overlay');
         const triggerBtns = document.querySelectorAll('.btn-trigger-contact');
 
         triggerBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                overlay.style.display = 'flex';
-            });
+            btn.addEventListener('click', () => overlay.style.display = 'flex');
         });
 
         closeBtn.addEventListener('click', () => overlay.style.display = 'none');
         window.addEventListener('click', (e) => { if(e.target === overlay) overlay.style.display = 'none'; });
-
-        // Simulasi WhatsApp
-        document.querySelector('.contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Mengalihkan ke WhatsApp A. Rahman...');
-            overlay.style.display = 'none';
-        });
     </script>
 </body>
 </html>
