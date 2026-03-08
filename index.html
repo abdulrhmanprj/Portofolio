@@ -1,105 +1,10 @@
-head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio App - A. Rahman</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
-
-    <div class="app-container">
-        <header class="header home-content">
-            <div class="user-profile">
-                <div class="avatar"></div>
-                <div class="user-info">
-                    <span>Hello 👋</span>
-                    <h1>A. Rahman</h1>
-                </div>
-            </div>
-            <div class="notification">
-                <i data-lucide="bell"></i>
-                <span class="badge">2</span>
-            </div>
-        </header>
-
-        <div class="search-section home-content">
-            <div class="search-bar">
-                <i data-lucide="search"></i>
-                <input type="text" placeholder="Cari layanan...">
-            </div>
-            <button class="filter-btn"><i data-lucide="sliders-horizontal"></i></button>
-        </div>
-
-        <section class="categories home-content">
-            <div class="category-item active" data-filter="ai-creative">
-                <div class="icon-box"><i data-lucide="sparkles"></i></div>
-                <span>AI Creative</span>
-            </div>
-            <div class="category-item" data-filter="visual-prod">
-                <div class="icon-box"><i data-lucide="video"></i></div>
-                <span>Cinema</span>
-            </div>
-            <div class="category-item" data-filter="branding">
-                <div class="icon-box"><i data-lucide="palette"></i></div>
-                <span>Branding</span>
-            </div>
-            <div class="category-item" data-filter="web-dev">
-                <div class="icon-box"><i data-lucide="layout"></i></div>
-                <span>Web Dev</span>
-            </div>
-            <div class="category-item" data-filter="ads">
-                <div class="icon-box"><i data-lucide="megaphone"></i></div>
-                <span>Digital Ads</span>
-            </div>
-        </section>
-
-        <section class="cta-card home-content">
-            <div class="cta-content">
-                <h3>Ingin visual cinematic?</h3>
-                <p>Mulai kolaborasi proyek Anda hari ini.</p>
-                <button class="cta-button btn-trigger-contact">Hubungi Saya</button>
-            </div>
-        </section>
-
-        <section class="projects home-content">
-            <div class="section-header">
-                <h2>Karya Terbaru</h2>
-                <a href="#" style="text-decoration: none; font-weight: 600; color: #0066FF; font-size: 14px;">Lihat Semua</a>
-            </div>
-            
-            <div id="project-list">
-                <div class="project-card" data-category="ai-creative">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800');">
-                        <span class="tag">AI Video • 2026</span>
-                        <button class="play-btn"><i data-lucide="play"></i></button>
-                    </div>
-                    <div class="card-details">
-                        <h4>Cyberpunk Cityscape</h4>
-                        <p>Ultra-realistic AI environment animation.</p>
-                    </div>
-                </div>
-
-                <div class="project-card" data-category="visual-prod" style="display: none;">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800');">
-                        <span class="tag">Cinematic • 2026</span>
-                        <button class="play-btn"><i data-lucide="clapperboard"></i></button>
-                    </div>
-                    <div class="card-details">
-                        <h4>Social Media Content</h4>
-                        <p>High-quality video production for TikTok & IG.</p>
-                    </div>
-                </div>
-
-                <div class="project-card" data-category="branding" style="display: none;">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800');">
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio App - A. Rahman</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -176,53 +81,19 @@ head>
                         <p>Ultra-realistic AI environment animation.</p>
                     </div>
                 </div>
-
                 <div class="project-card" data-category="visual-prod" style="display: none;">
                     <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800');">
                         <span class="tag">Cinematic • 2026</span>
-                        <button class="play-btn"><i data-lucide="clapperboard"></i></button>
+                        <button class="play-btn"><i data-lucide="video"></i></button>
                     </div>
                     <div class="card-details">
                         <h4>Social Media Content</h4>
                         <p>High-quality video production for TikTok & IG.</p>
                     </div>
                 </div>
-
-                <div class="project-card" data-category="branding" style="display: none;">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800');">
-                        <span class="tag">Branding • 2026</span>
-                        <button class="play-btn"><i data-lucide="palette"></i></button>
-                    </div>
-                    <div class="card-details">
-                        <h4>Mockup & Branding</h4>
-                        <p>Professional building & apparel design.</p>
-                    </div>
-                </div>
-
-                <div class="project-card" data-category="web-dev" style="display: none;">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800');">
-                        <span class="tag">Web Dev • 2026</span>
-                        <button class="play-btn"><i data-lucide="code"></i></button>
-                    </div>
-                    <div class="card-details">
-                        <h4>Premium Landing Page</h4>
-                        <p>Optimized UI/UX for business conversions.</p>
-                    </div>
-                </div>
-
-                <div class="project-card" data-category="ads" style="display: none;">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bbbda536639a?w=800');">
-                        <span class="tag">Marketing • 2026</span>
-                        <button class="play-btn"><i data-lucide="trending-up"></i></button>
-                    </div>
-                    <div class="card-details">
-                        <h4>Meta & Google Ads</h4>
-                        <p>Scale your business with high-ROAS campaigns.</p>
-                    </div>
-                </div>
             </div>
         </section>
-
+        
         <section id="experience-section" style="display: none;">
             <div class="section-header">
                 <h2>Professional Journey</h2>
@@ -241,7 +112,7 @@ head>
                     <div class="timeline-content">
                         <h4>Digital Strategist</h4>
                         <span>Dungeonpay.id • 2023</span>
-                        <p>Managing digital assets and conversion optimization.</p>
+                        <p>Managing digital assets and optimizing conversion funnels.</p>
                     </div>
                 </div>
             </div>
@@ -296,107 +167,79 @@ head>
     </div>
 
     <script>
-    // Inisialisasi ikon Lucide
-    lucide.createIcons();
+        lucide.createIcons();
 
-    // --- 1. Filter Kategori (Home) ---
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.addEventListener('click', function() {
-            // Update UI tombol aktif
-            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-
-            const filterValue = this.getAttribute('data-filter');
-            
-            // Filter kartu proyek
-            document.querySelectorAll('.project-card').forEach(card => {
-                if (card.getAttribute('data-category') === filterValue) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.4s ease-out';
-                } else {
-                    card.style.display = 'none';
-                }
+        // 1. Filter Kategori (Fungsi di Home)
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                const filterValue = this.getAttribute('data-filter');
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.style.display = card.getAttribute('data-category') === filterValue ? 'block' : 'none';
+                });
             });
         });
-    });
 
-    // --- 2. Navigasi SPA (Home, Experience, Profile) ---
-    const navItems = document.querySelectorAll('.nav-item');
-    const homeSections = document.querySelectorAll('.home-content');
-    const expSection = document.getElementById('experience-section');
-    const profSection = document.getElementById('profile-section');
+        // 2. Navigasi SPA (Home, Experience, Profile)
+        const navItems = document.querySelectorAll('.nav-item');
+        const homeElements = document.querySelectorAll('.home-content');
+        const expSection = document.getElementById('experience-section');
+        const profSection = document.getElementById('profile-section');
 
-    navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Update status navigasi aktif
-            navItems.forEach(n => n.classList.remove('active'));
-            this.classList.add('active');
-            
-            const page = this.getAttribute('data-page');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+                
+                const page = this.getAttribute('data-page');
 
-            // 1. Sembunyikan semua konten terlebih dahulu
-            homeSections.forEach(s => s.style.display = 'none');
-            expSection.style.display = 'none';
-            profSection.style.display = 'none';
+                // Sembunyikan semua section dulu
+                homeElements.forEach(el => el.style.display = 'none');
+                expSection.style.display = 'none';
+                profSection.style.display = 'none';
 
-            // 2. Logika Menampilkan Konten (Perbaikan Flexbox)
-            if (page === 'home') {
-                homeSections.forEach(s => {
-                    // Pastikan elemen yang butuh struktur Flex tetap tampil Flex
-                    if (s.tagName === 'HEADER' || 
-                        s.classList.contains('search-section') || 
-                        s.classList.contains('categories')) {
-                        s.style.display = 'flex';
-                    } else {
-                        s.style.display = 'block';
-                    }
-                    s.style.animation = 'fadeIn 0.3s ease-in-out';
-                });
-            } else if (page === 'experience') {
-                expSection.style.display = 'block';
-                expSection.style.animation = 'fadeIn 0.3s ease-in-out';
-            } else if (page === 'profile') {
-                profSection.style.display = 'block';
-                profSection.style.animation = 'fadeIn 0.3s ease-in-out';
-            }
-
-            // Kembali ke posisi atas saat ganti halaman
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Tampilkan section yang dipilih
+                if(page === 'home') {
+                    homeElements.forEach(el => {
+                        // Header & Search section menggunakan flex agar layout tidak rusak
+                        if(el.classList.contains('header') || el.classList.contains('search-section')) {
+                            el.style.display = 'flex';
+                        } else {
+                            el.style.display = 'block';
+                        }
+                    });
+                } else if(page === 'experience') {
+                    expSection.style.display = 'block';
+                } else if(page === 'profile') {
+                    profSection.style.display = 'block';
+                }
+                window.scrollTo(0,0);
+            });
         });
-    });
 
-    // --- 3. Contact Overlay Logic ---
-    const overlay = document.getElementById('contact-overlay');
-    const closeBtn = document.getElementById('close-overlay');
-    // Mencakup tombol di CTA card maupun di Profile
-    const triggerBtns = document.querySelectorAll('.btn-trigger-contact, .cta-button');
+        // 3. Logic Contact Overlay
+        const overlay = document.getElementById('contact-overlay');
+        const closeBtn = document.getElementById('close-overlay');
+        const triggerBtns = document.querySelectorAll('.btn-trigger-contact');
 
-    triggerBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            overlay.style.display = 'flex';
+        triggerBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                overlay.style.display = 'flex';
+            });
         });
-    });
 
-    // Tutup overlay
-    closeBtn.addEventListener('click', () => overlay.style.display = 'none');
-    
-    // Klik di luar area form untuk menutup
-    window.addEventListener('click', (e) => { 
-        if (e.target === overlay) overlay.style.display = 'none'; 
-    });
+        closeBtn.addEventListener('click', () => overlay.style.display = 'none');
+        window.addEventListener('click', (e) => { if(e.target === overlay) overlay.style.display = 'none'; });
 
-    // Handle Form (Opsional: Simulasi Kirim)
-    document.querySelector('.contact-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const msg = document.querySelector('textarea').value;
-        // Ganti dengan nomor WhatsApp Anda
-        window.open(`https://wa.me/628123456789?text=${encodeURIComponent(msg)}`, '_blank');
-        overlay.style.display = 'none';
-    });
-</script>
-    
+        // Simulasi WhatsApp
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Mengalihkan ke WhatsApp A. Rahman...');
+            overlay.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
