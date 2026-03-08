@@ -27,9 +27,10 @@
 
         <div class="search-section home-content">
             <div class="search-bar">
-                <i data-lucide="search"></i>
-                <input type="text" placeholder="Cari layanan...">
-            </div>
+    <i data-lucide="search"></i>
+    <input type="text" id="project-search" placeholder="Cari layanan...">
+</div>
+
             <button class="filter-btn"><i data-lucide="sliders-horizontal"></i></button>
         </div>
 
@@ -261,82 +262,115 @@
         </nav>
     </div>
 
-    <script>
-    // Inisialisasi ikon Lucide
+    
+<script>
+    // 1. Inisialisasi
     lucide.createIcons();
 
-    // --- 1. Filter Kategori (Home) ---
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.addEventListener('click', function() {
-            // Update UI tombol aktif
-            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-
-            const filterValue = this.getAttribute('data-filter');
-            
-            // Filter kartu proyek
-            document.querySelectorAll('.project-card').forEach(card => {
-                if (card.getAttribute('data-category') === filterValue) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.4s ease-out';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    // --- 2. Navigasi SPA (Home, Experience, Profile) ---
-    const navItems = document.querySelectorAll('.nav-item');
+    const searchInput = document.getElementById('project-search');
+    const projectCards = document.querySelectorAll('.project-card');
+    const emptyState = document.getElementById('empty-state');
     const homeSections = document.querySelectorAll('.home-content');
     const expSection = document.getElementById('experience-section');
     const profSection = document.getElementById('profile-section');
+    const allProjectsSection = document.getElementById('all-projects-section');
+    const navItems = document.querySelectorAll('.nav-item');
 
+    // 2. Fungsi Filter Gabungan (Search + Kategori)
+    function filterProjects() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeCategoryItem = document.querySelector('.category-item.active');
+        const activeCategory = activeCategoryItem ? activeCategoryItem.getAttribute('data-filter') : 'ai-creative';
+        
+        let visibleCount = 0;
+
+        projectCards.forEach(card => {
+            const title = card.querySelector('h4').innerText.toLowerCase();
+            const desc = card.querySelector('p').innerText.toLowerCase();
+            const category = card.getAttribute('data-category');
+
+            const matchesCategory = (activeCategory === category);
+            const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.3s ease-out';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Tampilkan/Sembunyikan Pesan Kosong
+        emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+
+    // Event Listener untuk Search & Kategori
+    if(searchInput) {
+        searchInput.addEventListener('input', filterProjects);
+    }
+
+    document.querySelectorAll('.category-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            filterProjects();
+        });
+    });
+
+    // 3. Navigasi SPA
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Update status navigasi aktif
             navItems.forEach(n => n.classList.remove('active'));
             this.classList.add('active');
             
             const page = this.getAttribute('data-page');
 
-            // 1. Sembunyikan semua konten terlebih dahulu
+            // Sembunyikan semua
             homeSections.forEach(s => s.style.display = 'none');
             expSection.style.display = 'none';
             profSection.style.display = 'none';
+            allProjectsSection.style.display = 'none';
 
-            // 2. Logika Menampilkan Konten (Perbaikan Flexbox)
             if (page === 'home') {
                 homeSections.forEach(s => {
-                    // Pastikan elemen yang butuh struktur Flex tetap tampil Flex
-                    if (s.tagName === 'HEADER' || 
-                        s.classList.contains('search-section') || 
-                        s.classList.contains('categories')) {
+                    if (s.tagName === 'HEADER' || s.classList.contains('search-section') || s.classList.contains('categories')) {
                         s.style.display = 'flex';
                     } else {
                         s.style.display = 'block';
                     }
-                    s.style.animation = 'fadeIn 0.3s ease-in-out';
                 });
             } else if (page === 'experience') {
                 expSection.style.display = 'block';
-                expSection.style.animation = 'fadeIn 0.3s ease-in-out';
             } else if (page === 'profile') {
                 profSection.style.display = 'block';
-                profSection.style.animation = 'fadeIn 0.3s ease-in-out';
             }
-
-            // Kembali ke posisi atas saat ganti halaman
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
-    // --- 3. Contact Overlay Logic ---
+    // 4. Lihat Semua & Back Logic
+    const viewAllBtn = document.querySelector('.section-header a');
+    if(viewAllBtn) {
+        viewAllBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            homeSections.forEach(s => s.style.display = 'none');
+            allProjectsSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+    }
+
+    const backBtn = document.getElementById('back-to-home');
+    if(backBtn) {
+        backBtn.addEventListener('click', () => {
+            document.querySelector('.nav-item[data-page="home"]').click();
+        });
+    }
+
+    // 5. Overlay & Form WhatsApp
     const overlay = document.getElementById('contact-overlay');
     const closeBtn = document.getElementById('close-overlay');
-    // Mencakup tombol di CTA card maupun di Profile
     const triggerBtns = document.querySelectorAll('.btn-trigger-contact, .cta-button');
 
     triggerBtns.forEach(btn => {
@@ -346,132 +380,15 @@
         });
     });
 
-    // Tutup overlay
     closeBtn.addEventListener('click', () => overlay.style.display = 'none');
-    
-    // Klik di luar area form untuk menutup
-    window.addEventListener('click', (e) => { 
-        if (e.target === overlay) overlay.style.display = 'none'; 
-    });
+    window.addEventListener('click', (e) => { if (e.target === overlay) overlay.style.display = 'none'; });
 
-    // Handle Form (Opsional: Simulasi Kirim)
     document.querySelector('.contact-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        const msg = document.querySelector('textarea').value;
-        // Ganti dengan nomor WhatsApp Anda
+        const msg = e.target.querySelector('textarea').value;
         window.open(`https://wa.me/628123456789?text=${encodeURIComponent(msg)}`, '_blank');
         overlay.style.display = 'none';
     });
-
-    // Definisikan section baru
-    const allProjectsSection = document.getElementById('all-projects-section');
-    const viewAllBtn = document.querySelector('.section-header a'); // Link "Lihat Semua"
-    const backBtn = document.getElementById('back-to-home');
-
-    // Fungsi untuk menyembunyikan semua halaman
-    function hideAllPages() {
-        document.querySelectorAll('.home-content, #experience-section, #profile-section, #all-projects-section').forEach(s => {
-            s.style.display = 'none';
-        });
-    }
-
-    // Klik "Lihat Semua"
-    viewAllBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        hideAllPages();
-        allProjectsSection.style.display = 'block';
-        allProjectsSection.style.animation = 'fadeIn 0.3s ease-out';
-        window.scrollTo(0, 0);
-    });
-
-    // Klik tombol Kembali ke Home
-    backBtn.addEventListener('click', () => {
-        // Trigger klik pada nav item "Home" agar kembali ke tampilan awal
-        document.querySelector('.nav-item[data-page="home"]').click();
-    });
-
-    // Update pada bagian Navigasi SPA yang sudah ada:
-    navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            // ... (kode navigasi Anda yang sebelumnya) ...
-            // Pastikan allProjectsSection juga ikut disembunyikan di dalam loop navigasi utama
-            allProjectsSection.style.display = 'none';
-        });
-    });
-        // --- LOGIKA SEARCH & FILTER ---
-const searchInput = document.getElementById('project-search');
-const projectCards = document.querySelectorAll('.project-card');
-
-// Fungsi utama untuk menyaring (kombinasi kategori + teks)
-function filterProjects() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
-
-    projectCards.forEach(card => {
-        const title = card.querySelector('h4').innerText.toLowerCase();
-        const desc = card.querySelector('p').innerText.toLowerCase();
-        const category = card.getAttribute('data-category');
-
-        // Cek apakah cocok dengan kategori DAN cocok dengan kata kunci pencarian
-        const matchesCategory = (activeCategory === category);
-        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
-
-        if (matchesCategory && matchesSearch) {
-            card.style.display = 'block';
-            card.style.animation = 'fadeIn 0.3s ease-out';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-// Jalankan fungsi setiap kali user mengetik
-searchInput.addEventListener('input', filterProjects);
-
-// Update event listener kategori yang lama agar memanggil fungsi filterProjects
-document.querySelectorAll('.category-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-        filterProjects(); // Panggil fungsi filter gabungan
-    });
-});
-
-function filterProjects() {
-    const searchTerm = document.getElementById('project-search').value.toLowerCase();
-    const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
-    const emptyState = document.getElementById('empty-state');
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    let visibleCount = 0;
-
-    projectCards.forEach(card => {
-        const title = card.querySelector('h4').innerText.toLowerCase();
-        const desc = card.querySelector('p').innerText.toLowerCase();
-        const category = card.getAttribute('data-category');
-
-        // Filter berdasarkan kategori DAN teks pencarian
-        const matchesCategory = (activeCategory === category);
-        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
-
-        if (matchesCategory && matchesSearch) {
-            card.style.display = 'block';
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
-        }
-    });
-
-    // Tampilkan Empty State jika tidak ada hasil
-    if (visibleCount === 0) {
-        emptyState.style.display = 'block';
-        emptyState.style.animation = 'fadeIn 0.4s ease-out';
-    } else {
-        emptyState.style.display = 'none';
-    }
-}
-
-        
 </script>
 
 </body>
