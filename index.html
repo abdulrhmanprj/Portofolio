@@ -122,7 +122,16 @@
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <div id="empty-state" style="display: none; text-align: center; padding: 40px 20px;">
+    <div class="empty-icon" style="background: #F9FAFB; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <i data-lucide="search-x" style="width: 40px; height: 40px; color: #98A2B3;"></i>
+    </div>
+    <h4 style="color: var(--text-main); font-weight: 700; margin-bottom: 8px;">Karya Tidak Ditemukan</h4>
+    <p style="color: var(--text-muted); font-size: 14px;">Maaf, pencarian Anda tidak cocok dengan koleksi portofolio saat ini.</p>
+</div>
+
+ </section>
         
         <section id="experience-section" style="display: none;">
     <div class="section-header">
@@ -428,12 +437,39 @@ document.querySelectorAll('.category-item').forEach(item => {
     });
 });
 
-// Logika Tombol Filter (Ikon Slider)
-const filterBtn = document.querySelector('.filter-btn');
-filterBtn.addEventListener('click', () => {
-    // Opsional: Tampilkan semua kategori jika tombol filter diklik
-    alert("Fitur urutkan berdasarkan terbaru/terlama segera hadir!");
-});
+function filterProjects() {
+    const searchTerm = document.getElementById('project-search').value.toLowerCase();
+    const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
+    const emptyState = document.getElementById('empty-state');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    let visibleCount = 0;
+
+    projectCards.forEach(card => {
+        const title = card.querySelector('h4').innerText.toLowerCase();
+        const desc = card.querySelector('p').innerText.toLowerCase();
+        const category = card.getAttribute('data-category');
+
+        // Filter berdasarkan kategori DAN teks pencarian
+        const matchesCategory = (activeCategory === category);
+        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+
+        if (matchesCategory && matchesSearch) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Tampilkan Empty State jika tidak ada hasil
+    if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        emptyState.style.animation = 'fadeIn 0.4s ease-out';
+    } else {
+        emptyState.style.display = 'none';
+    }
+}
 
         
 </script>
