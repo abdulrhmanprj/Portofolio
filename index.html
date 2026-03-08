@@ -276,47 +276,61 @@
     const allProjectsSection = document.getElementById('all-projects-section');
     const navItems = document.querySelectorAll('.nav-item');
 
-    // 2. Fungsi Filter Gabungan (Search + Kategori)
-    function filterProjects() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const activeCategoryItem = document.querySelector('.category-item.active');
-        const activeCategory = activeCategoryItem ? activeCategoryItem.getAttribute('data-filter') : 'ai-creative';
-        
-        let visibleCount = 0;
+    // --- 2. Fungsi Filter Gabungan (Search + Kategori) ---
+function filterProjects() {
+    // Pastikan elemen ada sebelum dijalankan
+    if (!searchInput || !emptyState) return;
 
-        projectCards.forEach(card => {
-            const title = card.querySelector('h4').innerText.toLowerCase();
-            const desc = card.querySelector('p').innerText.toLowerCase();
-            const category = card.getAttribute('data-category');
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeCategoryItem = document.querySelector('.category-item.active');
+    const activeCategory = activeCategoryItem ? activeCategoryItem.getAttribute('data-filter') : 'ai-creative';
+    const listContainer = document.getElementById('project-list');
+    
+    let visibleCount = 0;
 
-            const matchesCategory = (activeCategory === category);
-            const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+    projectCards.forEach(card => {
+        const title = card.querySelector('h4').innerText.toLowerCase();
+        // Cek deskripsi jika ada, jika tidak (karena disembunyikan di grid) tetap gunakan data dari elemen aslinya
+        const desc = card.querySelector('p') ? card.querySelector('p').innerText.toLowerCase() : "";
+        const category = card.getAttribute('data-category');
 
-            if (matchesCategory && matchesSearch) {
-                card.style.display = 'block';
-                card.style.animation = 'fadeIn 0.3s ease-out';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
+        const matchesCategory = (activeCategory === category);
+        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
 
-        // Tampilkan/Sembunyikan Pesan Kosong
-        emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
-    }
-
-    // Event Listener untuk Search & Kategori
-    if(searchInput) {
-        searchInput.addEventListener('input', filterProjects);
-    }
-
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.addEventListener('click', function() {
-            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            filterProjects();
-        });
+        if (matchesCategory && matchesSearch) {
+            // Dalam CSS Grid, item cukup diset 'block' atau 'initial'
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease-out';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
     });
+
+    // Kontrol tampilan Container dan Pesan Kosong
+    if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        listContainer.style.display = 'none';
+    } else {
+        emptyState.style.display = 'none';
+        // KUNCI: Kembalikan ke 'grid' agar tetap 3 kolom menyamping
+        listContainer.style.display = 'grid'; 
+    }
+}
+
+// --- Re-Inisialisasi Event Listeners ---
+if(searchInput) {
+    searchInput.addEventListener('input', filterProjects);
+}
+
+document.querySelectorAll('.category-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        filterProjects();
+    });
+});
+
 
     // 3. Navigasi SPA
     navItems.forEach(item => {
