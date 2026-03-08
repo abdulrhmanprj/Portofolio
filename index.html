@@ -389,6 +389,52 @@
             allProjectsSection.style.display = 'none';
         });
     });
+        // --- LOGIKA SEARCH & FILTER ---
+const searchInput = document.getElementById('project-search');
+const projectCards = document.querySelectorAll('.project-card');
+
+// Fungsi utama untuk menyaring (kombinasi kategori + teks)
+function filterProjects() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
+
+    projectCards.forEach(card => {
+        const title = card.querySelector('h4').innerText.toLowerCase();
+        const desc = card.querySelector('p').innerText.toLowerCase();
+        const category = card.getAttribute('data-category');
+
+        // Cek apakah cocok dengan kategori DAN cocok dengan kata kunci pencarian
+        const matchesCategory = (activeCategory === category);
+        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+
+        if (matchesCategory && matchesSearch) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease-out';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Jalankan fungsi setiap kali user mengetik
+searchInput.addEventListener('input', filterProjects);
+
+// Update event listener kategori yang lama agar memanggil fungsi filterProjects
+document.querySelectorAll('.category-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        filterProjects(); // Panggil fungsi filter gabungan
+    });
+});
+
+// Logika Tombol Filter (Ikon Slider)
+const filterBtn = document.querySelector('.filter-btn');
+filterBtn.addEventListener('click', () => {
+    // Opsional: Tampilkan semua kategori jika tombol filter diklik
+    alert("Fitur urutkan berdasarkan terbaru/terlama segera hadir!");
+});
+
         
 </script>
 
