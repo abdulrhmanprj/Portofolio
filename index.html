@@ -283,179 +283,144 @@
     </div>
 </div>
     
-<script>
-    // 1. Inisialisasi
+    <script>
+    // 1. Inisialisasi Ikon Lucide
     lucide.createIcons();
 
+    // DOM Elements
     const searchInput = document.getElementById('project-search');
     const projectCards = document.querySelectorAll('.project-card');
+    const projectList = document.getElementById('project-list');
     const emptyState = document.getElementById('empty-state');
-    const homeSections = document.querySelectorAll('.home-content');
-    const expSection = document.getElementById('experience-section');
-    const profSection = document.getElementById('profile-section');
-    const allProjectsSection = document.getElementById('all-projects-section');
+    const modal = document.getElementById('project-modal');
+    const modalHero = document.getElementById('modal-image');
     const navItems = document.querySelectorAll('.nav-item');
 
-    // --- 2. Fungsi Filter Gabungan (Search + Kategori) ---
-function filterProjects() {
-    // Pastikan elemen ada sebelum dijalankan
-    if (!searchInput || !emptyState) return;
+    // --- 2. Fungsi Filter (Search + Kategori + Grid Support) ---
+    function filterProjects() {
+        if (!searchInput || !emptyState) return;
 
-    const searchTerm = searchInput.value.toLowerCase();
-    const activeCategoryItem = document.querySelector('.category-item.active');
-    const activeCategory = activeCategoryItem ? activeCategoryItem.getAttribute('data-filter') : 'ai-creative';
-    const listContainer = document.getElementById('project-list');
-    
-    let visibleCount = 0;
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
+        let visibleCount = 0;
 
-    projectCards.forEach(card => {
-        const title = card.querySelector('h4').innerText.toLowerCase();
-        // Cek deskripsi jika ada, jika tidak (karena disembunyikan di grid) tetap gunakan data dari elemen aslinya
-        const desc = card.querySelector('p') ? card.querySelector('p').innerText.toLowerCase() : "";
-        const category = card.getAttribute('data-category');
+        projectCards.forEach(card => {
+            const title = card.querySelector('h4').innerText.toLowerCase();
+            const desc = card.querySelector('p').innerText.toLowerCase();
+            const category = card.getAttribute('data-category');
 
-        const matchesCategory = (activeCategory === category);
-        const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+            const matchesCategory = (activeCategory === category);
+            const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
 
-        if (matchesCategory && matchesSearch) {
-            // Dalam CSS Grid, item cukup diset 'block' atau 'initial'
-            card.style.display = 'block';
-            card.style.animation = 'fadeIn 0.3s ease-out';
-            visibleCount++;
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Kontrol tampilan grid vs pesan kosong
+        if (visibleCount === 0) {
+            emptyState.style.display = 'block';
+            projectList.style.display = 'none';
         } else {
-            card.style.display = 'none';
+            emptyState.style.display = 'none';
+            projectList.style.display = 'grid'; // Tetap GRID 3 kolom
         }
-    });
-
-    // Kontrol tampilan Container dan Pesan Kosong
-    if (visibleCount === 0) {
-        emptyState.style.display = 'block';
-        listContainer.style.display = 'none';
-    } else {
-        emptyState.style.display = 'none';
-        // KUNCI: Kembalikan ke 'grid' agar tetap 3 kolom menyamping
-        listContainer.style.display = 'grid'; 
     }
-}
 
-// --- Re-Inisialisasi Event Listeners ---
-if(searchInput) {
+    // Event Listeners Filter
     searchInput.addEventListener('input', filterProjects);
-}
-
-document.querySelectorAll('.category-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-        filterProjects();
+    document.querySelectorAll('.category-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            filterProjects();
+        });
     });
-});
 
+    // --- 3. Logika Modal Hybrid (Dinamis: Video/Gambar) ---
+    function openProjectModal(card) {
+        const title = card.querySelector('h4').innerText;
+        const desc = card.querySelector('p').innerText;
+        const tag = card.querySelector('.tag').innerText;
+        const type = card.getAttribute('data-type');
 
-    // 3. Navigasi SPA
+        // Reset konten modal hero
+        modalHero.innerHTML = '';
+        modalHero.style.backgroundImage = 'none';
+
+        if (type === 'video') {
+            const videoUrl = card.getAttribute('data-video');
+            modalHero.innerHTML = `
+                <video controls autoplay loop playsinline style="width:100%; height:100%; object-fit:cover;">
+                    <source src="${videoUrl}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
+        } else {
+            const img = card.querySelector('.card-image').style.backgroundImage;
+            modalHero.style.backgroundImage = img;
+        }
+
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-desc').innerText = desc;
+        document.getElementById('modal-tag').innerText = tag;
+
+        modal.style.display = 'flex';
+    }
+
+    // Global Click Handler untuk kartu proyek
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.project-card');
+        if (card) openProjectModal(card);
+    });
+
+    // Tutup Modal & Stop Video
+    document.getElementById('close-modal').onclick = () => {
+        modal.style.display = 'none';
+        modalHero.innerHTML = ''; // Penting: mematikan suara video
+    };
+
+    // --- 4. Navigasi SPA ---
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
+            const page = this.getAttribute('data-page');
+            
             navItems.forEach(n => n.classList.remove('active'));
             this.classList.add('active');
-            
-            const page = this.getAttribute('data-page');
 
-            // Sembunyikan semua
-            homeSections.forEach(s => s.style.display = 'none');
-            expSection.style.display = 'none';
-            profSection.style.display = 'none';
-            allProjectsSection.style.display = 'none';
+            // Sembunyikan semua section utama
+            document.querySelectorAll('.home-content, #experience-section, #profile-section, #all-projects-section').forEach(s => s.style.display = 'none');
 
             if (page === 'home') {
-                homeSections.forEach(s => {
+                document.querySelectorAll('.home-content').forEach(s => {
+                    // Header & Search menggunakan flex, lainnya block
                     if (s.tagName === 'HEADER' || s.classList.contains('search-section') || s.classList.contains('categories')) {
                         s.style.display = 'flex';
                     } else {
                         s.style.display = 'block';
                     }
                 });
-            } else if (page === 'experience') {
-                expSection.style.display = 'block';
-            } else if (page === 'profile') {
-                profSection.style.display = 'block';
+                projectList.style.display = 'grid';
+            } else {
+                document.getElementById(`${page}-section`).style.display = 'block';
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
-    // 4. Lihat Semua & Back Logic
-    const viewAllBtn = document.querySelector('.section-header a');
-    if(viewAllBtn) {
-        viewAllBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            homeSections.forEach(s => s.style.display = 'none');
-            allProjectsSection.style.display = 'block';
-            window.scrollTo(0, 0);
-        });
-    }
-
-    const backBtn = document.getElementById('back-to-home');
-    if(backBtn) {
-        backBtn.addEventListener('click', () => {
-            document.querySelector('.nav-item[data-page="home"]').click();
-        });
-    }
-
-    // 5. Overlay & Form WhatsApp
-    const overlay = document.getElementById('contact-overlay');
-    const closeBtn = document.getElementById('close-overlay');
-    const triggerBtns = document.querySelectorAll('.btn-trigger-contact, .cta-button');
-
-    triggerBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            overlay.style.display = 'flex';
-        });
-    });
-
-    closeBtn.addEventListener('click', () => overlay.style.display = 'none');
-    window.addEventListener('click', (e) => { if (e.target === overlay) overlay.style.display = 'none'; });
-
-    document.querySelector('.contact-form').addEventListener('submit', (e) => {
+    // 5. Form WhatsApp
+    document.querySelector('.contact-form').onsubmit = (e) => {
         e.preventDefault();
         const msg = e.target.querySelector('textarea').value;
-        window.open(`https://wa.me/628123456789?text=${encodeURIComponent(msg)}`, '_blank');
-        overlay.style.display = 'none';
-    });
-
-    const modal = document.getElementById('project-modal');
-const closeModal = document.getElementById('close-modal');
-
-// Fungsi membuka modal dengan data dinamis
-function openProjectModal(card) {
-    const title = card.querySelector('h4').innerText;
-    const desc = card.querySelector('p').innerText;
-    const img = card.querySelector('.card-image').style.backgroundImage;
-    const tag = card.querySelector('.tag').innerText;
-
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerText = desc;
-    document.getElementById('modal-image').style.backgroundImage = img;
-    document.getElementById('modal-tag').innerText = tag;
-
-    modal.style.display = 'flex';
-    modal.style.animation = 'fadeIn 0.3s ease-out';
-}
-
-// Tambahkan event click ke semua kartu (termasuk yang baru di-filter)
-document.addEventListener('click', function(e) {
-    const card = e.target.closest('.project-card');
-    if (card) {
-        openProjectModal(card);
-    }
-});
-
-// Tutup Modal
-closeModal.addEventListener('click', () => modal.style.display = 'none');
-window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-
+        // Ganti nomor dengan nomor Anda
+        window.open(`https://wa.me/628123456789?text=${encodeURIComponent("Halo A. Rahman, saya ingin tanya proyek: " + msg)}`, '_blank');
+        document.getElementById('contact-overlay').style.display = 'none';
+    };
 </script>
+
 
 </body>
 </html>
