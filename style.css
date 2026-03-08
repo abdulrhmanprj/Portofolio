@@ -480,4 +480,18 @@ body {
     to { transform: translateY(0); }
 }
 
+/* --- UI ALL PROJECTS GRID --- */
+.all-projects-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Satu kolom untuk mobile agar detail terbaca */
+    gap: 20px;
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+#back-to-home i {
+    width: 20px;
+    height: 20px;
+}
+
 </style>
