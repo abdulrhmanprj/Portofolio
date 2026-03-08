@@ -1,3 +1,98 @@
+head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio App - A. Rahman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header home-content">
+            <div class="user-profile">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <span>Hello 👋</span>
+                    <h1>A. Rahman</h1>
+                </div>
+            </div>
+            <div class="notification">
+                <i data-lucide="bell"></i>
+                <span class="badge">2</span>
+            </div>
+        </header>
+
+        <div class="search-section home-content">
+            <div class="search-bar">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Cari layanan...">
+            </div>
+            <button class="filter-btn"><i data-lucide="sliders-horizontal"></i></button>
+        </div>
+
+        <section class="categories home-content">
+            <div class="category-item active" data-filter="ai-creative">
+                <div class="icon-box"><i data-lucide="sparkles"></i></div>
+                <span>AI Creative</span>
+            </div>
+            <div class="category-item" data-filter="visual-prod">
+                <div class="icon-box"><i data-lucide="video"></i></div>
+                <span>Cinema</span>
+            </div>
+            <div class="category-item" data-filter="branding">
+                <div class="icon-box"><i data-lucide="palette"></i></div>
+                <span>Branding</span>
+            </div>
+            <div class="category-item" data-filter="web-dev">
+                <div class="icon-box"><i data-lucide="layout"></i></div>
+                <span>Web Dev</span>
+            </div>
+            <div class="category-item" data-filter="ads">
+                <div class="icon-box"><i data-lucide="megaphone"></i></div>
+                <span>Digital Ads</span>
+            </div>
+        </section>
+
+        <section class="cta-card home-content">
+            <div class="cta-content">
+                <h3>Ingin visual cinematic?</h3>
+                <p>Mulai kolaborasi proyek Anda hari ini.</p>
+                <button class="cta-button btn-trigger-contact">Hubungi Saya</button>
+            </div>
+        </section>
+
+        <section class="projects home-content">
+            <div class="section-header">
+                <h2>Karya Terbaru</h2>
+                <a href="#" style="text-decoration: none; font-weight: 600; color: #0066FF; font-size: 14px;">Lihat Semua</a>
+            </div>
+            
+            <div id="project-list">
+                <div class="project-card" data-category="ai-creative">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800');">
+                        <span class="tag">AI Video • 2026</span>
+                        <button class="play-btn"><i data-lucide="play"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Cyberpunk Cityscape</h4>
+                        <p>Ultra-realistic AI environment animation.</p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="visual-prod" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800');">
+                        <span class="tag">Cinematic • 2026</span>
+                        <button class="play-btn"><i data-lucide="clapperboard"></i></button>
+                    </div>
+                    <div class="card-details">
+                        <h4>Social Media Content</h4>
+                        <p>High-quality video production for TikTok & IG.</p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="branding" style="display: none;">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800');">
 <!DOCTYPE html>
 <html lang="id">
 <head>
