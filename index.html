@@ -65,11 +65,10 @@
             </div>
         </section>
 
-        <section class="projects home-content">
-            <div class="section-header">
-                <h2>Karya Terbaru</h2>
-                <a href="#" style="text-decoration: none; font-weight: 600; color: #0066FF; font-size: 14px;">Lihat Semua</a>
-            </div>
+        <div class="section-header">
+    <h2>Karya Terbaru</h2>
+    <a href="#" id="view-all-projects" style="text-decoration: none; font-weight: 600; color: #0066FF; font-size: 14px;">Lihat Semua</a>
+        </div>
             
             <div id="project-list">
     <div class="project-card" data-category="ai-creative" data-type="video" data-video="https://res.cloudinary.com/dweal4q39/video/upload/v1772980845/Teaser%20NYE2026.mp4">
@@ -411,6 +410,40 @@ function openProjectModal(card) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
+
+        // --- Tambahan: Logika Lihat Semua Karya ---
+    const viewAllBtn = document.querySelector('.section-header a'); // Mengambil link "Lihat Semua"
+    const allProjectsSection = document.getElementById('all-projects-section');
+    const homeSections = document.querySelectorAll('.home-content');
+
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Mencegah reload halaman
+            
+            // 1. Sembunyikan semua konten Home
+            homeSections.forEach(s => s.style.display = 'none');
+            
+            // 2. Tampilkan section Semua Karya
+            if (allProjectsSection) {
+                allProjectsSection.style.display = 'block';
+            }
+            
+            // 3. Reset scroll ke atas
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 4. Hapus status active dari navigasi bawah agar tidak membingungkan
+            navItems.forEach(n => n.classList.remove('active'));
+        });
+    }
+
+    // Logika tombol kembali di dalam "Semua Karya"
+    const backBtn = document.getElementById('back-to-home');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            // Picu klik pada nav item 'home' yang sudah ada logikanya di Bagian 4
+            document.querySelector('.nav-item[data-page="home"]').click();
+        });
+    }
 
     // 5. Form WhatsApp
     document.querySelector('.contact-form').onsubmit = (e) => {
