@@ -408,27 +408,38 @@
 
     // --- 5. Logika Lihat Semua & Kembali (DIPERBAIKI) ---
     const viewAllBtn = document.querySelector('.section-header a');
+    const backBtn = document.getElementById('back-to-home');
+    const sectionTitle = document.querySelector('#all-projects-section .section-header button');
+
     if (viewAllBtn) {
         viewAllBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Sembunyikan Home
+            
+            // 1. Sembunyikan Dashboard sepenuhnya agar tidak double
             homeSections.forEach(s => s.style.display = 'none');
-            // Tampilkan Semua Karya
+            
+            // 2. Tampilkan Halaman Galeri
             allProjectsSection.style.display = 'block';
-            // Nonaktifkan navigasi bawah agar user tahu mereka di halaman detail
+            
+            // 3. Ubah teks tombol menjadi "Kembali"
+            if (sectionTitle) {
+                sectionTitle.innerHTML = '<i data-lucide="arrow-left"></i> Kembali';
+                lucide.createIcons(); // Refresh ikon panah
+            }
+
+            // 4. Nonaktifkan menu navigasi bawah agar fokus
             navItems.forEach(n => n.classList.remove('active'));
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    const backBtn = document.getElementById('back-to-home');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
-            // Paksa navigasi kembali ke Home menggunakan logika navigasi yang sudah ada
+            // Kembali ke Home menggunakan logika navigasi yang sudah ada
             document.querySelector('.nav-item[data-page="home"]').click();
         });
     }
-
     // --- 6. Form WhatsApp ---
     document.querySelector('.contact-form').onsubmit = (e) => {
         e.preventDefault();
