@@ -282,7 +282,7 @@
     </div>
 </div>
     
-    <script>
+ <script>
     // 1. Inisialisasi Ikon Lucide
     lucide.createIcons();
 
@@ -294,11 +294,12 @@
     const modal = document.getElementById('project-modal');
     const modalHero = document.getElementById('modal-image');
     const navItems = document.querySelectorAll('.nav-item');
+    const allProjectsSection = document.getElementById('all-projects-section');
+    const homeSections = document.querySelectorAll('.home-content');
 
-    // --- 2. Fungsi Filter (Search + Kategori + Grid Support) ---
+    // --- 2. Fungsi Filter ---
     function filterProjects() {
         if (!searchInput || !emptyState) return;
-
         const searchTerm = searchInput.value.toLowerCase();
         const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
         let visibleCount = 0;
@@ -307,7 +308,6 @@
             const title = card.querySelector('h4').innerText.toLowerCase();
             const desc = card.querySelector('p').innerText.toLowerCase();
             const category = card.getAttribute('data-category');
-
             const matchesCategory = (activeCategory === category);
             const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
 
@@ -319,17 +319,15 @@
             }
         });
 
-        // Kontrol tampilan grid vs pesan kosong
         if (visibleCount === 0) {
             emptyState.style.display = 'block';
             projectList.style.display = 'none';
         } else {
             emptyState.style.display = 'none';
-            projectList.style.display = 'grid'; // Tetap GRID 3 kolom
+            projectList.style.display = 'grid';
         }
     }
 
-    // Event Listeners Filter
     searchInput.addEventListener('input', filterProjects);
     document.querySelectorAll('.category-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -339,50 +337,45 @@
         });
     });
 
-    // --- 3. Logika Modal Hybrid (Dinamis: Video/Gambar) ---
-function openProjectModal(card) {
-    const title = card.querySelector('h4').innerText;
-    const desc = card.querySelector('p').innerText;
-    const tag = card.querySelector('.tag').innerText;
-    const type = card.getAttribute('data-type');
+    // --- 3. Logika Modal ---
+    function openProjectModal(card) {
+        const title = card.querySelector('h4').innerText;
+        const desc = card.querySelector('p').innerText;
+        const tag = card.querySelector('.tag').innerText;
+        const type = card.getAttribute('data-type');
 
-    // Reset konten modal hero
-    modalHero.innerHTML = '';
-    modalHero.style.backgroundImage = 'none';
+        modalHero.innerHTML = '';
+        modalHero.style.backgroundImage = 'none';
 
-    if (type === 'video') {
-        const videoUrl = card.getAttribute('data-video');
-        // Menambahkan 'muted' agar browser mengizinkan autoplay
-        modalHero.innerHTML = `
-            <video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover; background:#000;">
-                <source src="${videoUrl}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>`;
-    } else {
-        const img = card.querySelector('.card-image').style.backgroundImage;
-        modalHero.style.backgroundImage = img;
+        if (type === 'video') {
+            const videoUrl = card.getAttribute('data-video');
+            modalHero.innerHTML = `
+                <video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover; background:#000;">
+                    <source src="${videoUrl}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
+        } else {
+            const img = card.querySelector('.card-image').style.backgroundImage;
+            modalHero.style.backgroundImage = img;
+        }
+
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-desc').innerText = desc;
+        document.getElementById('modal-tag').innerText = tag;
+        modal.style.display = 'flex';
     }
 
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerText = desc;
-    document.getElementById('modal-tag').innerText = tag;
-
-    modal.style.display = 'flex';
-}
-
-    // Global Click Handler untuk kartu proyek
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.project-card');
         if (card) openProjectModal(card);
     });
 
-    // Tutup Modal & Stop Video
     document.getElementById('close-modal').onclick = () => {
         modal.style.display = 'none';
-        modalHero.innerHTML = ''; // Penting: mematikan suara video
+        modalHero.innerHTML = '';
     };
 
-    // --- 4. Navigasi SPA ---
+    // --- 4. Navigasi SPA (DIPERBAIKI UNTUK MENGATASI DOUBLE) ---
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
@@ -391,12 +384,14 @@ function openProjectModal(card) {
             navItems.forEach(n => n.classList.remove('active'));
             this.classList.add('active');
 
-            // Sembunyikan semua section utama
-            document.querySelectorAll('.home-content, #experience-section, #profile-section, #all-projects-section').forEach(s => s.style.display = 'none');
+            // SEMBUNYIKAN SEMUA SECTION TERMASUK "SEMUA KARYA"
+            homeSections.forEach(s => s.style.display = 'none');
+            document.getElementById('experience-section').style.display = 'none';
+            document.getElementById('profile-section').style.display = 'none';
+            allProjectsSection.style.display = 'none'; // Tambahan kunci
 
             if (page === 'home') {
-                document.querySelectorAll('.home-content').forEach(s => {
-                    // Header & Search menggunakan flex, lainnya block
+                homeSections.forEach(s => {
                     if (s.tagName === 'HEADER' || s.classList.contains('search-section') || s.classList.contains('categories')) {
                         s.style.display = 'flex';
                     } else {
@@ -411,50 +406,37 @@ function openProjectModal(card) {
         });
     });
 
-        // --- Tambahan: Logika Lihat Semua Karya ---
-    const viewAllBtn = document.querySelector('.section-header a'); // Mengambil link "Lihat Semua"
-    const allProjectsSection = document.getElementById('all-projects-section');
-    const homeSections = document.querySelectorAll('.home-content');
-
+    // --- 5. Logika Lihat Semua & Kembali (DIPERBAIKI) ---
+    const viewAllBtn = document.querySelector('.section-header a');
     if (viewAllBtn) {
         viewAllBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Mencegah reload halaman
-            
-            // 1. Sembunyikan semua konten Home
+            e.preventDefault();
+            // Sembunyikan Home
             homeSections.forEach(s => s.style.display = 'none');
-            
-            // 2. Tampilkan section Semua Karya
-            if (allProjectsSection) {
-                allProjectsSection.style.display = 'block';
-            }
-            
-            // 3. Reset scroll ke atas
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // 4. Hapus status active dari navigasi bawah agar tidak membingungkan
+            // Tampilkan Semua Karya
+            allProjectsSection.style.display = 'block';
+            // Nonaktifkan navigasi bawah agar user tahu mereka di halaman detail
             navItems.forEach(n => n.classList.remove('active'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // Logika tombol kembali di dalam "Semua Karya"
     const backBtn = document.getElementById('back-to-home');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
-            // Picu klik pada nav item 'home' yang sudah ada logikanya di Bagian 4
+            // Paksa navigasi kembali ke Home menggunakan logika navigasi yang sudah ada
             document.querySelector('.nav-item[data-page="home"]').click();
         });
     }
 
-    // 5. Form WhatsApp
+    // --- 6. Form WhatsApp ---
     document.querySelector('.contact-form').onsubmit = (e) => {
         e.preventDefault();
         const msg = e.target.querySelector('textarea').value;
-        // Ganti nomor dengan nomor Anda
         window.open(`https://wa.me/628123456789?text=${encodeURIComponent("Halo A. Rahman, saya ingin tanya proyek: " + msg)}`, '_blank');
         document.getElementById('contact-overlay').style.display = 'none';
     };
-</script>
-
+            </script>   
 
 </body>
 </html>
