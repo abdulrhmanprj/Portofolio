@@ -282,172 +282,121 @@
     </div>
 </div>
     
- <script>
+<script>
     // 1. Inisialisasi Ikon Lucide
     lucide.createIcons();
 
-    // DOM Elements
-    const searchInput = document.getElementById('project-search');
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectList = document.getElementById('project-list');
-    const emptyState = document.getElementById('empty-state');
+    // DOM Elements Utama
+    const navItems = document.querySelectorAll('.nav-item');
+    const homeSections = document.querySelectorAll('.home-content');
+    const allProjectsSection = document.getElementById('all-projects-section');
     const modal = document.getElementById('project-modal');
     const modalHero = document.getElementById('modal-image');
-    const navItems = document.querySelectorAll('.nav-item');
-    const allProjectsSection = document.getElementById('all-projects-section');
-    const homeSections = document.querySelectorAll('.home-content');
 
-    // --- 2. Fungsi Filter ---
-    function filterProjects() {
-        if (!searchInput || !emptyState) return;
-        const searchTerm = searchInput.value.toLowerCase();
-        const activeCategory = document.querySelector('.category-item.active').getAttribute('data-filter');
-        let visibleCount = 0;
-
-        projectCards.forEach(card => {
-            const title = card.querySelector('h4').innerText.toLowerCase();
-            const desc = card.querySelector('p').innerText.toLowerCase();
-            const category = card.getAttribute('data-category');
-            const matchesCategory = (activeCategory === category);
-            const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
-
-            if (matchesCategory && matchesSearch) {
-                card.style.display = 'block';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        if (visibleCount === 0) {
-            emptyState.style.display = 'block';
-            projectList.style.display = 'none';
-        } else {
-            emptyState.style.display = 'none';
-            projectList.style.display = 'grid';
-        }
-    }
-
-    searchInput.addEventListener('input', filterProjects);
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.addEventListener('click', function() {
-            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            filterProjects();
-        });
-    });
-
-    // --- 3. Logika Modal ---
-    function openProjectModal(card) {
-        const title = card.querySelector('h4').innerText;
-        const desc = card.querySelector('p').innerText;
-        const tag = card.querySelector('.tag').innerText;
-        const type = card.getAttribute('data-type');
-
-        modalHero.innerHTML = '';
-        modalHero.style.backgroundImage = 'none';
-
-        if (type === 'video') {
-            const videoUrl = card.getAttribute('data-video');
-            modalHero.innerHTML = `
-                <video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover; background:#000;">
-                    <source src="${videoUrl}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>`;
-        } else {
-            const img = card.querySelector('.card-image').style.backgroundImage;
-            modalHero.style.backgroundImage = img;
-        }
-
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-desc').innerText = desc;
-        document.getElementById('modal-tag').innerText = tag;
-        modal.style.display = 'flex';
-    }
-
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.project-card');
-        if (card) openProjectModal(card);
-    });
-
-    document.getElementById('close-modal').onclick = () => {
-        modal.style.display = 'none';
-        modalHero.innerHTML = '';
-    };
-
-    // --- 4. Navigasi SPA (DIPERBAIKI UNTUK MENGATASI DOUBLE) ---
+    // --- 2. Navigasi SPA (Solusi Tampilan Double) ---
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const page = this.getAttribute('data-page');
             
+            // Update status aktif navigasi
             navItems.forEach(n => n.classList.remove('active'));
             this.classList.add('active');
 
-            // SEMBUNYIKAN SEMUA SECTION TERMASUK "SEMUA KARYA"
+            // SEMBUNYIKAN SEMUA (Penting untuk reset state)
             homeSections.forEach(s => s.style.display = 'none');
             document.getElementById('experience-section').style.display = 'none';
             document.getElementById('profile-section').style.display = 'none';
-            allProjectsSection.style.display = 'none'; // Tambahan kunci
+            allProjectsSection.style.display = 'none';
 
             if (page === 'home') {
+                // Munculkan kembali dashboard secara bersih
                 homeSections.forEach(s => {
-                    if (s.tagName === 'HEADER' || s.classList.contains('search-section') || s.classList.contains('categories')) {
+                    if (s.tagName === 'HEADER' || s.classList.contains('search-section')) {
                         s.style.display = 'flex';
                     } else {
                         s.style.display = 'block';
                     }
                 });
-                projectList.style.display = 'grid';
             } else {
+                // Tampilkan section halaman lain
                 document.getElementById(`${page}-section`).style.display = 'block';
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
-    // --- 5. Logika Lihat Semua & Kembali (DIPERBAIKI) ---
-    const viewAllBtn = document.querySelector('.section-header a');
-    const backBtn = document.getElementById('back-to-home');
-    const sectionTitle = document.querySelector('#all-projects-section .section-header button');
-
+    // --- 3. Logika "Lihat Semua" & "Kembali" ---
+    const viewAllBtn = document.getElementById('view-all-projects');
     if (viewAllBtn) {
         viewAllBtn.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // 1. Sembunyikan Dashboard sepenuhnya agar tidak double
+            // Sembunyikan total dashboard (Header, Search, Karya Terbaru)
             homeSections.forEach(s => s.style.display = 'none');
             
-            // 2. Tampilkan Halaman Galeri
+            // Tampilkan hanya Galeri (Semua Karya)
             allProjectsSection.style.display = 'block';
             
-            // 3. Ubah teks tombol menjadi "Kembali"
-            if (sectionTitle) {
-                sectionTitle.innerHTML = '<i data-lucide="arrow-left"></i> Kembali';
-                lucide.createIcons(); // Refresh ikon panah
-            }
-
-            // 4. Nonaktifkan menu navigasi bawah agar fokus
+            // Hilangkan highlight di navigasi bawah agar tidak membingungkan
             navItems.forEach(n => n.classList.remove('active'));
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
+    const backBtn = document.getElementById('back-to-home');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
-            // Kembali ke Home menggunakan logika navigasi yang sudah ada
+            // Memicu klik pada menu Home untuk kembali ke tampilan awal
             document.querySelector('.nav-item[data-page="home"]').click();
         });
     }
-    // --- 6. Form WhatsApp ---
-    document.querySelector('.contact-form').onsubmit = (e) => {
+
+    // --- 4. Modal System (Hybrid Video/Gambar) ---
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.project-card');
+        if (card) {
+            const title = card.querySelector('h4').innerText;
+            const desc = card.querySelector('p').innerText;
+            const tag = card.querySelector('.tag').innerText;
+            const type = card.getAttribute('data-type');
+
+            modalHero.innerHTML = '';
+            modalHero.style.backgroundImage = 'none';
+
+            if (type === 'video') {
+                const videoUrl = card.getAttribute('data-video');
+                // Menggunakan atribut autoplay, muted, playsinline agar lancar di HP
+                modalHero.innerHTML = `
+                    <video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover; background:#000;">
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>`;
+            } else {
+                const img = card.querySelector('.card-image').style.backgroundImage;
+                modalHero.style.backgroundImage = img;
+            }
+
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('modal-tag').innerText = tag;
+            modal.style.display = 'flex';
+        }
+    });
+
+    // Menutup Modal
+    document.getElementById('close-modal').onclick = () => {
+        modal.style.display = 'none';
+        modalHero.innerHTML = ''; // Menghentikan suara/proses video
+    };
+
+    // --- 5. WhatsApp Integration ---
+    document.querySelector('.contact-form')?.addEventListener('submit', (e) => {
         e.preventDefault();
         const msg = e.target.querySelector('textarea').value;
-        window.open(`https://wa.me/628123456789?text=${encodeURIComponent("Halo A. Rahman, saya ingin tanya proyek: " + msg)}`, '_blank');
-        document.getElementById('contact-overlay').style.display = 'none';
-    };
-            </script>   
+        window.open(`https://wa.me/628123456789?text=${encodeURIComponent("Halo A. Rahman, saya tertarik dengan proyek Anda: " + msg)}`, '_blank');
+    });
+</script> 
 
 </body>
 </html>
